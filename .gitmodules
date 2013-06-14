@@ -1,0 +1,3 @@
+[submodule "cnf"]
+	path = cnf
+	url = git@github.com:project-ferox/ferox-cnf.git
