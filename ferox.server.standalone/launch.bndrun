@@ -1,0 +1,32 @@
+-runfw: org.apache.felix.framework;version='[4,5)'
+-runee: JavaSE-1.6
+
+-runbundles: ferox;version=latest,\
+	ferox.api;version=latest,\
+	ferox.server;version=latest,\
+	ferox.server.standalone;version=latest,\
+	ferox.util;version=latest,\
+	io.netty.buffer;version='[4.0.0,4.0.1)',\
+	io.netty.codec;version='[4.0.0,4.0.1)',\
+	io.netty.codec-http;version='[4.0.0,4.0.1)',\
+	io.netty.common;version='[4.0.0,4.0.1)',\
+	io.netty.handler;version='[4.0.0,4.0.1)',\
+	io.netty.transport;version='[4.0.0,4.0.1)',\
+	lo4j;version=latest,\
+	org.apache.felix.configadmin;version='[1.4.0,1.4.1)',\
+	org.apache.felix.gogo.command;version='[0.12.0,0.12.1)',\
+	org.apache.felix.gogo.runtime;version='[0.10.0,0.10.1)',\
+	org.apache.felix.gogo.shell;version='[0.10.0,0.10.1)',\
+	org.apache.felix.log;version='[1.0.1,1.0.2)',\
+	org.apache.felix.scr;version='[1.6.2,1.6.3)'
+
+-runrequires: osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.shell)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)',\
+	osgi.identity;filter:='(osgi.identity=ferox.api)',\
+	osgi.identity;filter:='(osgi.identity=ferox.server)',\
+	osgi.identity;filter:='(osgi.identity=ferox.server.standalone)',\
+	osgi.identity;filter:='(osgi.identity=ferox)',\
+	osgi.identity;filter:='(osgi.identity=ferox.util)',\
+	osgi.identity;filter:='(osgi.identity=lo4j)',\
+	osgi.identity;filter:='(osgi.identity=javassist.osgi)'
+-resolve.effective: active

@@ -1,0 +1,3 @@
+-buildpath: biz.aQute.bnd.annotation
+Export-Package: com.tantaman.lo4j
+Bundle-Version: 1.0.0

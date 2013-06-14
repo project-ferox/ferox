@@ -1,0 +1,3 @@
+-buildpath: biz.aQute.bnd.annotation
+Export-Package: com.tantaman.ferox.util
+Bundle-Version: 1.0.0
