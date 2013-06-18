@@ -24,6 +24,11 @@ public class ArrayIterator<T> implements Iterator<T> {
 	public T next() {
 		return array[cursor++];
 	}
+	
+	@Override
+	public ArrayIterator<T> clone() {
+		return new ArrayIterator<>(array, cursor);
+	}
 
 	@Override
 	public void remove() {

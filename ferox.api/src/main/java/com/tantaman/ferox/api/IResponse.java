@@ -9,7 +9,8 @@ public interface IResponse {
 	public ChannelFuture write();
 	public ChannelFuture writePartial();
 	
-	public void send(String stringResponse, HttpResponseStatus status);
-	public void send(Object jsonResponse, IJsonSerializer serializer, HttpResponseStatus status);
+	public void send(String response, HttpResponseStatus status);
 	public void send(String response, String contentType, HttpResponseStatus status);
+	public void send(Object response, String contentType, HttpResponseStatus status);
+	public void send(Object response, HttpResponseStatus status);
 }

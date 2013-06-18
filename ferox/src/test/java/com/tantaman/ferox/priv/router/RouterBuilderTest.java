@@ -1,5 +1,6 @@
 package com.tantaman.ferox.priv.router;
 
+import io.netty.handler.codec.http.HttpMethod;
 import junit.framework.TestCase;
 
 import com.tantaman.ferox.RouterBuilder;
@@ -78,6 +79,49 @@ public class RouterBuilderTest extends TestCase {
 	
 	public void testRegex() {
 		
+	}
+	
+	public void testWild() {
+		RouterBuilder rb = new RouterBuilder();
+		
+		EmptyFactory collection = new EmptyFactory();
+		rb.post("/:collection/:id", collection);
+		
+		EmptyFactory oneWild = new EmptyFactory();
+		rb.get("/:dir", oneWild);
+		
+		EmptyFactory oneLiteral = new EmptyFactory();
+		rb.get("/literal", oneLiteral);
+		
+		EmptyFactory oneWildSecondHandler = new EmptyFactory();
+		rb.get("/:dir", oneWildSecondHandler);
+		
+		EmptyFactory oneWildDifferentVerb = new EmptyFactory();
+		rb.post("/:dir", oneWildDifferentVerb);
+		
+		EmptyFactory stuffThenWild = new EmptyFactory();
+		rb.get("/a/loc/:here", stuffThenWild); 
+		
+		EmptyFactory wildThenStuff = new EmptyFactory();
+		rb.get(":loc/to/be", wildThenStuff);
+		
+		EmptyFactory surround = new EmptyFactory();
+		rb.put("/some/:thing/:here/ok", surround);
+		
+		IRouter router = rb.build();
+		
+		assertTrue(_.first(router.lookup(HTTPMethods.GET, "/wonderful").getHandlers()) == oneWild);
+		assertTrue(_.last(router.lookup(HTTPMethods.GET, "/wonderful").getHandlers()) == oneWildSecondHandler);
+
+		assertTrue(_.first(router.lookup(HTTPMethods.GET, "/literal").getHandlers()) == oneLiteral);
+		
+		assertTrue(_.first(router.lookup(HTTPMethods.POST, "/sdf").getHandlers()) == oneWildDifferentVerb);
+		
+		assertTrue(_.first(router.lookup(HTTPMethods.GET, "/a/loc/to").getHandlers()) == stuffThenWild);
+		assertTrue(_.first(router.lookup(HTTPMethods.GET, "/a/to/be").getHandlers()) == wildThenStuff);
+		assertTrue(_.first(router.lookup(HTTPMethods.GET, "/wee/to/be").getHandlers()) == wildThenStuff);
+		
+		assertTrue(_.first(router.lookup(HTTPMethods.POST, "/re/collect").getHandlers()) == collection);
 	}
 	
 	public void testLateFailNoCatchall() {

@@ -12,6 +12,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.MessageList;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -76,7 +77,12 @@ public class Response implements IResponse {
 	}
 	
 	@Override
-	public void send(Object jsonResponse, IJsonSerializer serializer, HttpResponseStatus status) {
+	public void send(Object response, String contentType, HttpResponseStatus status) {
+		
+	}
+	
+	@Override
+	public void send(Object response, HttpResponseStatus status) {
 		
 	}
 	

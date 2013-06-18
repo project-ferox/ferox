@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.tantaman.ferox.api.IRouteSegment;
 import com.tantaman.ferox.priv.router.RouteSegment;
+import com.tantaman.ferox.util.ArrayIterator;
 
 /**
  * @author tantaman
@@ -25,21 +26,23 @@ public class Node {
 		regs = new LinkedHashMap<>();
 	}
 	
-	private String getNext(Iterator<String> iter) {
+	private String getNext(ArrayIterator<String> iter) {
 		if (iter.hasNext()) return iter.next();
 		return null;
 	}
 	
-	public IRouteSegment match(String piece, Iterator<String> pieces) {
+	public IRouteSegment match(String piece, ArrayIterator<String> pieces) {
 		if (piece == null) {
 			if (segment != null)
 				return segment;
 			return catchall;
 		}
 		
+		String next = getNext(pieces);
+		
 		Node n = nodes.get(new StringToStandardRouteSegmentLookup(piece));
 		if (n != null) {
-			IRouteSegment match = n.match(getNext(pieces), pieces);
+			IRouteSegment match = n.match(next, pieces.clone());
 			if (match != null)
 				return match;
 		}
@@ -52,7 +55,7 @@ public class Node {
 		// and regexes can span multiple pieces...  which we don't handle at the moment either.
 		for (Map.Entry<IRouteSegment, Node> re : regs.entrySet()) {
 			if (re.getKey().matches(piece)) {
-				IRouteSegment match = re.getValue().match(getNext(pieces), pieces);
+				IRouteSegment match = re.getValue().match(next, pieces.clone());
 				if (match != null)
 					return match;
 			}
@@ -61,7 +64,7 @@ public class Node {
 		// Wild matches any single piece, so transition to it if
 		// nothing else matched
 		if (wildNode != null) {
-			IRouteSegment match = wildNode.match(getNext(pieces), pieces);
+			IRouteSegment match = wildNode.match(next, pieces.clone());
 			if (match != null)
 				return match;
 		}
