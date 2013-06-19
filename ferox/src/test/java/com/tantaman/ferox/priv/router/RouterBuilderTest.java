@@ -1,6 +1,5 @@
 package com.tantaman.ferox.priv.router;
 
-import io.netty.handler.codec.http.HttpMethod;
 import junit.framework.TestCase;
 
 import com.tantaman.ferox.RouterBuilder;
@@ -78,7 +77,24 @@ public class RouterBuilderTest extends TestCase {
 	
 	
 	public void testRegex() {
+		RouterBuilder rb = new RouterBuilder();
 		
+		EmptyFactory regulusOne = new EmptyFactory();
+		rb.get("/:some:regex+", regulusOne);
+		
+		EmptyFactory regTwo = new EmptyFactory();
+		rb.get("/:some:reg+ex", regTwo);
+		
+		IRouter router = rb.build();
+		
+		assertTrue(_.first(router.lookup(HTTPMethods.GET, "/regex").getHandlers()) == regulusOne);
+		assertTrue(_.first(router.lookup(HTTPMethods.GET, "/regexxx").getHandlers()) == regulusOne);
+		assertTrue(router.lookup(HTTPMethods.GET, "/rege") == null);
+		
+		assertTrue(_.first(router.lookup(HTTPMethods.GET, "/reggex").getHandlers()) == regTwo);
+		assertTrue(_.first(router.lookup(HTTPMethods.GET, "/regggex").getHandlers()) == regTwo);
+		
+		assertTrue(router.lookup(HTTPMethods.GET, "/regggexxx") == null);
 	}
 	
 	public void testWild() {
@@ -106,7 +122,7 @@ public class RouterBuilderTest extends TestCase {
 		rb.get(":loc/to/be", wildThenStuff);
 		
 		EmptyFactory surround = new EmptyFactory();
-		rb.put("/some/:thing/:here/ok", surround);
+		rb.get("/a/:thing/:here/ok", surround);
 		
 		IRouter router = rb.build();
 		
@@ -122,14 +138,27 @@ public class RouterBuilderTest extends TestCase {
 		assertTrue(_.first(router.lookup(HTTPMethods.GET, "/wee/to/be").getHandlers()) == wildThenStuff);
 		
 		assertTrue(_.first(router.lookup(HTTPMethods.POST, "/re/collect").getHandlers()) == collection);
+		
+		assertTrue(_.first(router.lookup(HTTPMethods.GET, "/a/loc/here/ok").getHandlers()) == surround);
 	}
 	
 	public void testLateFailNoCatchall() {
+		RouterBuilder rb = new RouterBuilder();
 		
+		EmptyFactory late = new EmptyFactory();
+		rb.post("/a/:really/late/fail", late);
+		
+		IRouter router = rb.build();
+		
+		assertTrue(router.lookup(HTTPMethods.POST, "/a/sdf/late/fail/now") == null);
 	}
 	
 	public void testLateFailWithCatchall() {
-		
+		RouterBuilder rb = new RouterBuilder();
+		EmptyFactory caught = new EmptyFactory();
+		rb.post("/different/late/fail/**", caught);
+		IRouter router = rb.build();
+		assertTrue(_.first(router.lookup(HTTPMethods.POST, "/different/late/fail/or/is/it").getHandlers()) == caught);
 	}
 	
 	public void testMultipleWildsAtSamePosition() {

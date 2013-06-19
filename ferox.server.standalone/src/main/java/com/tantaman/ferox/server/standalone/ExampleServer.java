@@ -113,7 +113,7 @@ public class ExampleServer {
 			}
 		});
 		
-		b.useFerox(feroxFactories.createFeroxChannelHandlerFactory(routerBuilder.build()));
+		b.use("ferox", feroxFactories.createFeroxChannelHandlerFactory(routerBuilder.build()));
 		
 		IFeroxServer server = b.build();
 		try {
@@ -126,9 +126,5 @@ public class ExampleServer {
 	@Deactivate
 	public void deactivate(ComponentContext context) {
 		
-	}
-
-	public static void main(String[] args) {
-
 	}
 }

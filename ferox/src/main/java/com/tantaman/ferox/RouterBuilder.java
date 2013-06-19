@@ -1,6 +1,6 @@
 package com.tantaman.ferox;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.tantaman.ferox.api.IRouteHandlerFactory;
@@ -14,7 +14,7 @@ public class RouterBuilder implements IRouterBuilder {
 	private final Map<String, Route> routes;
 	
 	public RouterBuilder() {
-		routes = new HashMap<>();
+		routes = new LinkedHashMap<>();
 	}
 	
 	private IRouterBuilder add(String method, String path, IRouteHandlerFactory ... routeHandlers) {
