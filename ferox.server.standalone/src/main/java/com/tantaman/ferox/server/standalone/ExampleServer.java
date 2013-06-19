@@ -8,11 +8,6 @@ import io.netty.handler.stream.ChunkedWriteHandler;
 
 import org.osgi.service.component.ComponentContext;
 
-import aQute.bnd.annotation.component.Activate;
-import aQute.bnd.annotation.component.Component;
-import aQute.bnd.annotation.component.Deactivate;
-import aQute.bnd.annotation.component.Reference;
-
 import com.tantaman.ferox.api.IChannelHandlerFactory;
 import com.tantaman.ferox.api.IFeroxFactories;
 import com.tantaman.ferox.api.IFeroxServer;
@@ -26,22 +21,18 @@ import com.tantaman.ferox.api.IRouteHandler;
 import com.tantaman.ferox.api.IRouteHandlerFactory;
 import com.tantaman.ferox.api.IRouterBuilder;
 
-@Component(immediate=true)
 public class ExampleServer {
 	private IFeroxFactories feroxFactories;
 	private IFeroxServerFactories serverFactories;
 	
-	@Reference
 	public void setFeroxFactories(IFeroxFactories feroxFactories) {
 		this.feroxFactories = feroxFactories;
 	}
 	
-	@Reference
 	public void setServerFactories(IFeroxServerFactories serverFactories) {
 		this.serverFactories = serverFactories;
 	}
 
-	@Activate
 	public void activate(ComponentContext context) {
 		System.out.println("ACTIVATED");
 		IFeroxServerBuilder b = serverFactories.createServerBuilder();
@@ -51,7 +42,7 @@ public class ExampleServer {
 
 			@Override
 			public ChannelHandler create() {
-				return new HttpRequestDecoder();
+				return (ChannelHandler) new HttpRequestDecoder();
 			}
 		});
 
@@ -59,7 +50,7 @@ public class ExampleServer {
 
 			@Override
 			public ChannelHandler create() {
-				return new HttpResponseEncoder();
+				return (ChannelHandler) new HttpResponseEncoder();
 			}
 		});
 
@@ -123,7 +114,6 @@ public class ExampleServer {
 		}
 	}
 	
-	@Deactivate
 	public void deactivate(ComponentContext context) {
 		
 	}
