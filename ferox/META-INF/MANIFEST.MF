@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ferox
+Bundle-SymbolicName: ferox
+Bundle-Version: 1.0.0.qualifier
+Export-Package: com.tantaman.ferox,
+ com.tantaman.ferox.priv,
+ com.tantaman.ferox.priv.router,
+ com.tantaman.ferox.priv.trie

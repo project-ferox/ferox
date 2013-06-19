@@ -1,0 +1,6 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: lo4j
+Bundle-SymbolicName: lo4j
+Bundle-Version: 1.0.0.qualifier
+Export-Package: com.tantaman.lo4j
