@@ -7,3 +7,5 @@ Export-Package: com.tantaman.ferox,
  com.tantaman.ferox.priv,
  com.tantaman.ferox.priv.router,
  com.tantaman.ferox.priv.trie
+Import-Package: com.tantaman.ferox.api,
+ com.tantaman.ferox.util
