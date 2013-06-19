@@ -1,10 +1,15 @@
-package com.tantaman.ferox.priv.router;
-
-import junit.framework.TestCase;
+package com.tantaman.ferox;
 
 
-public class RouteTest extends TestCase {
+import org.junit.Test;
 
+import com.tantaman.ferox.priv.router.Route;
+import static org.junit.Assert.*;
+
+
+public class RouteTest {
+
+	@Test
 	public void testIt() {
 		Route r = new Route("get", "/go/to/this");
 		

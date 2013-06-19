@@ -1,15 +1,16 @@
-package com.tantaman.ferox.priv.router;
+package com.tantaman.ferox;
 
-import junit.framework.TestCase;
 
-import com.tantaman.ferox.RouterBuilder;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
 import com.tantaman.ferox.api.IRouteHandler;
 import com.tantaman.ferox.api.IRouteHandlerFactory;
 import com.tantaman.ferox.api.IRouter;
 import com.tantaman.ferox.util.HTTPMethods;
 import com.tantaman.lo4j._;
 
-public class RouterBuilderTest extends TestCase {
+public class RouterBuilderTest {
 	private static class EmptyFactory implements IRouteHandlerFactory {
 		@Override
 		public IRouteHandler create() {
@@ -17,6 +18,7 @@ public class RouterBuilderTest extends TestCase {
 		}
 	}
 	
+	@Test
 	public void testStandard() {
 		RouterBuilder rb = new RouterBuilder();
 		
@@ -49,6 +51,7 @@ public class RouterBuilderTest extends TestCase {
 		assertTrue(_.last(router.lookup(HTTPMethods.GET, "/a/b/c").getHandlers()) == second);
 	}
 
+	@Test
 	public void testCatchall() {
 		RouterBuilder rb = new RouterBuilder();
 		
@@ -75,7 +78,7 @@ public class RouterBuilderTest extends TestCase {
 		assertTrue(except);
 	}
 	
-	
+	@Test
 	public void testRegex() {
 		RouterBuilder rb = new RouterBuilder();
 		
@@ -97,6 +100,7 @@ public class RouterBuilderTest extends TestCase {
 		assertTrue(router.lookup(HTTPMethods.GET, "/regggexxx") == null);
 	}
 	
+	@Test
 	public void testWild() {
 		RouterBuilder rb = new RouterBuilder();
 		
@@ -142,6 +146,7 @@ public class RouterBuilderTest extends TestCase {
 		assertTrue(_.first(router.lookup(HTTPMethods.GET, "/a/loc/here/ok").getHandlers()) == surround);
 	}
 	
+	@Test
 	public void testLateFailNoCatchall() {
 		RouterBuilder rb = new RouterBuilder();
 		
@@ -153,6 +158,7 @@ public class RouterBuilderTest extends TestCase {
 		assertTrue(router.lookup(HTTPMethods.POST, "/a/sdf/late/fail/now") == null);
 	}
 	
+	@Test
 	public void testLateFailWithCatchall() {
 		RouterBuilder rb = new RouterBuilder();
 		EmptyFactory caught = new EmptyFactory();
