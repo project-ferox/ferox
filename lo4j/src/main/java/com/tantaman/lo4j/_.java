@@ -1,8 +1,12 @@
 package com.tantaman.lo4j;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import javax.print.attribute.HashAttributeSet;
 
 public class _ {
 	public static <T> T first(Collection<T> c) {
@@ -26,5 +30,15 @@ public class _ {
 		}
 		
 		return last;
+	}
+
+	public static Map<Object, Object> createMap(Object[] objs) {
+		Map<Object, Object> result = new HashMap<>();
+		
+		for (int i = 1; i < objs.length; i+=2) {
+			result.put(objs[i-1], objs[i]);
+		}
+		
+		return result;
 	}
 }

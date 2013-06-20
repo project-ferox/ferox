@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bnd-LastModified: 1371605377666
 Bundle-ManifestVersion: 2
 Bundle-Name: ferox.server.standalone
-Bundle-SymbolicName: ferox.server.standalone
+Bundle-SymbolicName: ferox.server.example.standalone
 Bundle-Version: 1.0.0
 Created-By: 1.7.0_04 (Oracle Corporation)
 Import-Package: com.tantaman.ferox.api;version="[1.0,2)",io.netty.channe
