@@ -1,12 +1,10 @@
 package com.tantaman.ferox.priv.trie;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.tantaman.ferox.api.IRouteSegment;
-import com.tantaman.ferox.priv.router.RouteSegment;
 import com.tantaman.ferox.util.ArrayIterator;
 
 /**

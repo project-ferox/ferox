@@ -16,3 +16,4 @@ Private-Package: com.tantaman.ferox.server.priv
 Service-Component: OSGI-INF/com.tantaman.ferox.server.FeroxServerFactori
  es.xml
 Tool: Bnd-2.1.0.20130426-122213
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

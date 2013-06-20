@@ -10,3 +10,4 @@ Export-Package: com.tantaman.ferox.api;uses:="io.netty.channel,io.netty.
 Import-Package: io.netty.channel;version="[4.0,5)",io.netty.handler.code
  c.http;version="[4.0,5)"
 Tool: Bnd-2.1.0.20130426-122213
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

@@ -13,3 +13,4 @@ Private-Package: com.tantaman.ferox.server.standalone
 Service-Component: OSGI-INF/com.tantaman.ferox.server.standalone.Example
  Server.xml
 Tool: Bnd-2.1.0.20130426-122213
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

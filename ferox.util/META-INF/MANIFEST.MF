@@ -7,3 +7,4 @@ Bundle-Version: 1.0.0
 Created-By: 1.7.0_04 (Oracle Corporation)
 Export-Package: com.tantaman.ferox.util;version="1.0.0"
 Tool: Bnd-2.1.0.20130426-122213
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

@@ -15,3 +15,4 @@ Private-Package: com.tantaman.ferox.priv,com.tantaman.ferox.priv.router,
  com.tantaman.ferox.priv.trie
 Service-Component: OSGI-INF/com.tantaman.ferox.priv.FeroxFactories.xml
 Tool: Bnd-2.1.0.20130426-122213
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7

@@ -22,7 +22,6 @@ import com.tantaman.ferox.api.IResponse;
 
 public class Response implements IResponse {
 	private MessageList<Object> messageList;
-	private HttpRequest request;
 	private ChannelHandlerContext ctx;
 	private boolean close = false;
 	private boolean keepAlive = false;
@@ -36,7 +35,6 @@ public class Response implements IResponse {
 	}
 
 	void setRequest(HttpRequest request) {
-		this.request = request;
 		keepAlive = isKeepAlive(request);
 	}
 	
