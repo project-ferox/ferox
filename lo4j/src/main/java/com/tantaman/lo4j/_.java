@@ -6,8 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.print.attribute.HashAttributeSet;
-
 public class _ {
 	public static <T> T first(Collection<T> c) {
 		return c.iterator().next();

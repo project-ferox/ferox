@@ -68,6 +68,11 @@ public class Response implements IResponse {
 	}
 	
 	@Override
+	public void send(String response, String contentType) {
+		
+	}
+	
+	@Override
 	public void send(String response, String contentType, HttpResponseStatus status) {
 		
 	}

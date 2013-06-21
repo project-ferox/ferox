@@ -10,6 +10,7 @@ public interface IResponse {
 	public ChannelFuture writePartial();
 	
 	public void send(String response, HttpResponseStatus status);
+	public void send(String response, String contentType);
 	public void send(String response, String contentType, HttpResponseStatus status);
 	public void send(Object response, String contentType, HttpResponseStatus status);
 	public void send(Object response, HttpResponseStatus status);
