@@ -24,7 +24,9 @@ public class HttpReception implements IHttpReception {
 	}
 	
 	public List<String> getQueryParam(String key) {
-		return querystringParameters.get(key);
+		List<String> param = querystringParameters.get(key);
+		
+		return param == null ? Collections.EMPTY_LIST : param;
 	}
 	
 	public List<String> getSplats() {

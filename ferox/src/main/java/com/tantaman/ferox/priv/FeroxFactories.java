@@ -9,6 +9,10 @@ import com.tantaman.ferox.api.IRouterBuilder;
 
 public class FeroxFactories implements IFeroxFactories {
 
+	public FeroxFactories() {
+		System.out.println("new ferox fact");
+	}
+	
 	@Override
 	public IRouterBuilder createRouterBuilder() {
 		return new RouterBuilder();
