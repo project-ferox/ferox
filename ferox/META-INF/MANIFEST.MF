@@ -5,8 +5,10 @@ Bundle-SymbolicName: com.tantaman.ferox
 Bundle-Version: 1.0.0
 Export-Package: com.tantaman.ferox;version="1.0.0";uses:="com.tantaman.ferox.api,io.netty.channel"
 Import-Package: com.tantaman.ferox.api;version="[1.0,2)",
+ com.tantaman.ferox.api.pluggable,
  com.tantaman.ferox.api.request_response,
  com.tantaman.ferox.api.router,
+ com.tantaman.ferox.api.router.pluggable,
  com.tantaman.ferox.util;version="[1.0,2)",
  com.tantaman.lo4j;version="[1.0,2)",
  io.netty.buffer;version="[4.0,5)",

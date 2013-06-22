@@ -34,9 +34,9 @@ public class ExampleServer {
 	}
 
 	public void activate(ComponentContext context) {
-		System.out.println("ACTIVATED");
+		
 		IFeroxServerBuilder b = serverFactories.createServerBuilder();
-
+		
 		b.port(8082);
 		b.use("decoder", new IChannelHandlerFactory() {
 
