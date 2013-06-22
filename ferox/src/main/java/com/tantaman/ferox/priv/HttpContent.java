@@ -5,7 +5,7 @@ import io.netty.handler.codec.http.LastHttpContent;
 import java.util.List;
 import java.util.Map;
 
-import com.tantaman.ferox.api.IHttpContent;
+import com.tantaman.ferox.api.request_response.IHttpContent;
 
 public class HttpContent extends HttpReception implements IHttpContent {
 	private final io.netty.handler.codec.http.HttpContent rawContent;

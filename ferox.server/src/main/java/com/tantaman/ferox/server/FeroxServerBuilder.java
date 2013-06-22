@@ -4,8 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.tantaman.ferox.api.IChannelHandlerFactory;
-import com.tantaman.ferox.api.IFeroxServer;
-import com.tantaman.ferox.api.IFeroxServerBuilder;
+import com.tantaman.ferox.api.server.IFeroxServer;
+import com.tantaman.ferox.api.server.IFeroxServerBuilder;
 import com.tantaman.ferox.server.priv.FeroxChannelInitializer;
 import com.tantaman.ferox.util.IPair;
 import com.tantaman.ferox.util.Pair;

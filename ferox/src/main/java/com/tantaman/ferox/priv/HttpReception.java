@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import com.tantaman.ferox.api.IHttpReception;
+import com.tantaman.ferox.api.request_response.IHttpReception;
 
 public class HttpReception implements IHttpReception {
 	private final Map<String, String> urlParameters;

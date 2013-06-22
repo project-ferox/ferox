@@ -2,7 +2,7 @@ package com.tantaman.ferox.priv.trie;
 
 import java.util.Collection;
 
-import com.tantaman.ferox.api.IRouteSegment;
+import com.tantaman.ferox.api.router.IRouteSegment;
 import com.tantaman.ferox.priv.router.Route;
 import com.tantaman.ferox.util.ArrayIterator;
 

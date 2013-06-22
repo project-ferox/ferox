@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.tantaman.ferox.api.IRouteSegment;
+import com.tantaman.ferox.api.router.IRouteSegment;
 import com.tantaman.ferox.util.ArrayIterator;
 
 /**

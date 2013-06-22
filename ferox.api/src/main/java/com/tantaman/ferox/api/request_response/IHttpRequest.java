@@ -1,4 +1,4 @@
-package com.tantaman.ferox.api;
+package com.tantaman.ferox.api.request_response;
 
 import io.netty.handler.codec.http.HttpRequest;
 

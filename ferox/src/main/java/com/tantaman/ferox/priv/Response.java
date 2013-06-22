@@ -17,7 +17,8 @@ import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.util.CharsetUtil;
 
-import com.tantaman.ferox.api.IResponse;
+import com.tantaman.ferox.api.request_response.IHeaderBuilder;
+import com.tantaman.ferox.api.request_response.IResponse;
 
 
 public class Response implements IResponse {
@@ -111,5 +112,35 @@ public class Response implements IResponse {
 		ChannelFuture f = ctx.write(temp);
 
 		return f;
+	}
+
+	@Override
+	public IHeaderBuilder getHeaderBuilder() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public HttpHeaders getHeaders() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void send(String response) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void send(Object response) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void send(Object response, String contentType) {
+		// TODO Auto-generated method stub
+		
 	}
 }

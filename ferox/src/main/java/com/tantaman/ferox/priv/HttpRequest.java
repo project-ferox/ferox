@@ -3,7 +3,7 @@ package com.tantaman.ferox.priv;
 import java.util.List;
 import java.util.Map;
 
-import com.tantaman.ferox.api.IHttpRequest;
+import com.tantaman.ferox.api.request_response.IHttpRequest;
 
 public class HttpRequest extends HttpReception implements IHttpRequest {
 	private final io.netty.handler.codec.http.HttpRequest rawRequest;

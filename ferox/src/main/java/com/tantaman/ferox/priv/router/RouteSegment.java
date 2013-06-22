@@ -3,7 +3,7 @@ package com.tantaman.ferox.priv.router;
 import java.util.List;
 import java.util.Map;
 
-import com.tantaman.ferox.api.IRouteSegment;
+import com.tantaman.ferox.api.router.IRouteSegment;
 
 
 public class RouteSegment implements IRouteSegment {	

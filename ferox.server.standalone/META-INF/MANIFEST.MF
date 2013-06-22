@@ -5,10 +5,14 @@ Bundle-Name: ferox.server.standalone
 Bundle-SymbolicName: ferox.server.example.standalone
 Bundle-Version: 1.0.0
 Created-By: 1.7.0_04 (Oracle Corporation)
-Import-Package: com.tantaman.ferox.api;version="[1.0,2)",io.netty.channe
- l;version="[4.0,5)",io.netty.handler.codec.http;version="[4.0,5)",io.ne
- tty.handler.stream;version="[4.0,5)",org.osgi.service.component;version
- ="[1.1,2)"
+Import-Package: com.tantaman.ferox.api;version="[1.0,2)",
+ com.tantaman.ferox.api.request_response,
+ com.tantaman.ferox.api.router,
+ com.tantaman.ferox.api.server,
+ io.netty.channel;version="[4.0,5)",
+ io.netty.handler.codec.http;version="[4.0,5)",
+ io.netty.handler.stream;version="[4.0,5)",
+ org.osgi.service.component;version="[1.1,2)"
 Private-Package: com.tantaman.ferox.server.standalone
 Service-Component: OSGI-INF/com.tantaman.ferox.server.standalone.Example
  Server.xml

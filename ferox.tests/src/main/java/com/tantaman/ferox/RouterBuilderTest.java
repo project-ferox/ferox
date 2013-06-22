@@ -2,11 +2,12 @@ package com.tantaman.ferox;
 
 
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
-import com.tantaman.ferox.api.IRouteHandler;
-import com.tantaman.ferox.api.IRouteHandlerFactory;
-import com.tantaman.ferox.api.IRouter;
+import com.tantaman.ferox.api.router.IRouteHandler;
+import com.tantaman.ferox.api.router.IRouteHandlerFactory;
+import com.tantaman.ferox.api.router.IRouter;
 import com.tantaman.ferox.util.HTTPMethods;
 import com.tantaman.lo4j._;
 

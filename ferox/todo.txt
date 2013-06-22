@@ -1,0 +1,11 @@
+Allow addition of ferox downstream handlers.
+  -this'll allow other webfinger users (for example) to tack on additional links to an identity.
+Allow builder type construction of full responses.
+
+Fix splats so they can consume an arbitrary number of "/" segments.  This'll involve updating the node to know it is a multi-segment
+ consuming node and to keep consuming segments while route matching continues to fail. 
+ e.g.:
+ 1 consume piece,
+ 2 matach against wilds/regs/other guys
+ 3 if fail, goto 1
+ 4 return route

@@ -3,7 +3,7 @@ package com.tantaman.ferox;
 import io.netty.channel.ChannelHandler;
 
 import com.tantaman.ferox.api.IChannelHandlerFactory;
-import com.tantaman.ferox.api.IRouter;
+import com.tantaman.ferox.api.router.IRouter;
 
 public class FeroxChannelHandlerFactory implements IChannelHandlerFactory {
 	private final IRouter router;

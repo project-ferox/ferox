@@ -1,4 +1,4 @@
-package com.tantaman.ferox.api;
+package com.tantaman.ferox.api.server;
 
 public interface IFeroxServer extends Runnable {
 	public void runInCurrentThread() throws InterruptedException;

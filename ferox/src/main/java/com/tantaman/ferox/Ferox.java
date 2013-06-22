@@ -8,8 +8,8 @@ import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.QueryStringDecoder;
 
-import com.tantaman.ferox.api.IRoute;
-import com.tantaman.ferox.api.IRouter;
+import com.tantaman.ferox.api.router.IRoute;
+import com.tantaman.ferox.api.router.IRouter;
 import com.tantaman.ferox.priv.Invoker;
 
 public class Ferox extends ChannelInboundHandlerAdapter {
@@ -26,7 +26,10 @@ public class Ferox extends ChannelInboundHandlerAdapter {
         try {
             for (int i = 0; i < size; i ++) {
             	messageReceived(ctx, msgs.get(i));
-                if (invoker.getClose()) {
+            	
+            	ctx.fireMessageReceived(msgs.get(i));
+            	
+                if (invoker != null && invoker.getClose()) {
                     break;
                 }
             }
@@ -45,10 +48,18 @@ public class Ferox extends ChannelInboundHandlerAdapter {
 			QueryStringDecoder decoder = new QueryStringDecoder(uri);
 			String path = decoder.path();
 			IRoute route = router.lookup(method.name(), path);
+			
+			if (route == null) {
+				ctx.fireMessageReceived(msg);
+				return;
+			}
+			
 			invoker = new Invoker(route, method.name(), path, decoder.parameters());
 			invoker.setContext(ctx);
 			invoker.request(request);
 		}
+		
+		if (invoker == null) return;
 		
 		invoker.setContext(ctx);
 		

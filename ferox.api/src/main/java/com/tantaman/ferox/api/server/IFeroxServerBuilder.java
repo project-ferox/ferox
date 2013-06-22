@@ -1,4 +1,6 @@
-package com.tantaman.ferox.api;
+package com.tantaman.ferox.api.server;
+
+import com.tantaman.ferox.api.IChannelHandlerFactory;
 
 public interface IFeroxServerBuilder {
 	public IFeroxServerBuilder port(int port);

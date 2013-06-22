@@ -1,8 +1,8 @@
 package com.tantaman.ferox;
 
-import com.tantaman.ferox.api.IRoute;
-import com.tantaman.ferox.api.IRouteSegment;
-import com.tantaman.ferox.api.IRouter;
+import com.tantaman.ferox.api.router.IRoute;
+import com.tantaman.ferox.api.router.IRouteSegment;
+import com.tantaman.ferox.api.router.IRouter;
 import com.tantaman.ferox.priv.trie.Trie;
 
 /**

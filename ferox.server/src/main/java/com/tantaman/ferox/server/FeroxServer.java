@@ -1,6 +1,6 @@
 package com.tantaman.ferox.server;
 
-import com.tantaman.ferox.api.IFeroxServer;
+import com.tantaman.ferox.api.server.IFeroxServer;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;

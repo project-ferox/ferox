@@ -3,9 +3,9 @@ package com.tantaman.ferox;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.tantaman.ferox.api.IRouteHandlerFactory;
-import com.tantaman.ferox.api.IRouter;
-import com.tantaman.ferox.api.IRouterBuilder;
+import com.tantaman.ferox.api.router.IRouteHandlerFactory;
+import com.tantaman.ferox.api.router.IRouter;
+import com.tantaman.ferox.api.router.IRouterBuilder;
 import com.tantaman.ferox.priv.router.Route;
 import com.tantaman.ferox.priv.trie.Trie;
 import com.tantaman.ferox.util.HTTPMethods;

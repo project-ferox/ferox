@@ -11,15 +11,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.tantaman.ferox.api.IHttpContent;
-import com.tantaman.ferox.api.IHttpRequest;
-import com.tantaman.ferox.api.IRequestChainer;
-import com.tantaman.ferox.api.IResponse;
-import com.tantaman.ferox.api.IRoute;
-import com.tantaman.ferox.api.IRouteHandler;
-import com.tantaman.ferox.api.IRouteHandlerFactory;
-import com.tantaman.ferox.api.IRouteSegment;
-import com.tantaman.ferox.api.IRouteSegment.Type;
+import com.tantaman.ferox.api.request_response.IHttpContent;
+import com.tantaman.ferox.api.request_response.IHttpRequest;
+import com.tantaman.ferox.api.request_response.IRequestChainer;
+import com.tantaman.ferox.api.request_response.IResponse;
+import com.tantaman.ferox.api.router.IRoute;
+import com.tantaman.ferox.api.router.IRouteHandler;
+import com.tantaman.ferox.api.router.IRouteHandlerFactory;
+import com.tantaman.ferox.api.router.IRouteSegment;
+import com.tantaman.ferox.api.router.IRouteSegment.Type;
 
 public class Invoker {
 	private final List<IRouteHandler> handlers;

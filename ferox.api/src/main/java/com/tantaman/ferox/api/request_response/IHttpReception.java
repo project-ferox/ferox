@@ -1,4 +1,4 @@
-package com.tantaman.ferox.api;
+package com.tantaman.ferox.api.request_response;
 
 import java.util.List;
 

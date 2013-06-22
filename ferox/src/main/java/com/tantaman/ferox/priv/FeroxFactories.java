@@ -4,8 +4,8 @@ import com.tantaman.ferox.FeroxChannelHandlerFactory;
 import com.tantaman.ferox.RouterBuilder;
 import com.tantaman.ferox.api.IChannelHandlerFactory;
 import com.tantaman.ferox.api.IFeroxFactories;
-import com.tantaman.ferox.api.IRouter;
-import com.tantaman.ferox.api.IRouterBuilder;
+import com.tantaman.ferox.api.router.IRouter;
+import com.tantaman.ferox.api.router.IRouterBuilder;
 
 public class FeroxFactories implements IFeroxFactories {
 

@@ -1,6 +1,10 @@
-package com.tantaman.ferox.api;
+package com.tantaman.ferox.api.router;
 
-import io.netty.handler.codec.http.LastHttpContent;
+import com.tantaman.ferox.api.request_response.IHttpContent;
+import com.tantaman.ferox.api.request_response.IHttpRequest;
+import com.tantaman.ferox.api.request_response.IRequestChainer;
+import com.tantaman.ferox.api.request_response.IResponse;
+
 
 public class RouteHandlerAdapter implements IRouteHandler {
 
@@ -13,7 +17,7 @@ public class RouteHandlerAdapter implements IRouteHandler {
 	@Override
 	public void content(IHttpContent content, IResponse response,
 			IRequestChainer next) {
-		if (content instanceof LastHttpContent) {
+		if (content.isLast()) {
 			lastContent(content, response, next);
 		}
 		next.content(content);

@@ -3,8 +3,10 @@ Bundle-ManifestVersion: 2
 Bundle-Name: ferox.api
 Bundle-SymbolicName: ferox.api
 Bundle-Version: 1.0.0
-Export-Package: com.tantaman.ferox.api;uses:="io.netty.channel,io.netty.
- handler.codec.http";version="1.0.0"
+Export-Package: com.tantaman.ferox.api;version="1.0.0";uses:="io.netty.channel,io.netty.handler.codec.http",
+ com.tantaman.ferox.api.request_response,
+ com.tantaman.ferox.api.router,
+ com.tantaman.ferox.api.server
 Import-Package: io.netty.channel;version="[4.0,5)",io.netty.handler.code
  c.http;version="[4.0,5)"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7

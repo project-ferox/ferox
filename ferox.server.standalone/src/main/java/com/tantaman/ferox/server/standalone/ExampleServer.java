@@ -10,16 +10,16 @@ import org.osgi.service.component.ComponentContext;
 
 import com.tantaman.ferox.api.IChannelHandlerFactory;
 import com.tantaman.ferox.api.IFeroxFactories;
-import com.tantaman.ferox.api.IFeroxServer;
-import com.tantaman.ferox.api.IFeroxServerBuilder;
-import com.tantaman.ferox.api.IFeroxServerFactories;
-import com.tantaman.ferox.api.IHttpContent;
-import com.tantaman.ferox.api.IHttpRequest;
-import com.tantaman.ferox.api.IRequestChainer;
-import com.tantaman.ferox.api.IResponse;
-import com.tantaman.ferox.api.IRouteHandler;
-import com.tantaman.ferox.api.IRouteHandlerFactory;
-import com.tantaman.ferox.api.IRouterBuilder;
+import com.tantaman.ferox.api.request_response.IHttpContent;
+import com.tantaman.ferox.api.request_response.IHttpRequest;
+import com.tantaman.ferox.api.request_response.IRequestChainer;
+import com.tantaman.ferox.api.request_response.IResponse;
+import com.tantaman.ferox.api.router.IRouteHandler;
+import com.tantaman.ferox.api.router.IRouteHandlerFactory;
+import com.tantaman.ferox.api.router.IRouterBuilder;
+import com.tantaman.ferox.api.server.IFeroxServer;
+import com.tantaman.ferox.api.server.IFeroxServerBuilder;
+import com.tantaman.ferox.api.server.IFeroxServerFactories;
 
 public class ExampleServer {
 	private IFeroxFactories feroxFactories;

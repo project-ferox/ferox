@@ -5,9 +5,9 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.tantaman.ferox.api.IRoute;
-import com.tantaman.ferox.api.IRouteHandlerFactory;
-import com.tantaman.ferox.api.IRouteSegment;
+import com.tantaman.ferox.api.router.IRoute;
+import com.tantaman.ferox.api.router.IRouteHandlerFactory;
+import com.tantaman.ferox.api.router.IRouteSegment;
 
 public class Route implements Iterable<IRouteSegment>, IRoute {
 	private final List<IRouteSegment> segments;
