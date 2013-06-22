@@ -1,18 +1,14 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1371605379651
 Bundle-ManifestVersion: 2
 Bundle-Name: ferox
 Bundle-SymbolicName: ferox
 Bundle-Version: 1.0.0
-Created-By: 1.7.0_04 (Oracle Corporation)
 Export-Package: com.tantaman.ferox;version="1.0.0";uses:="com.tantaman.ferox.api,io.netty.channel"
 Import-Package: com.tantaman.ferox.api;version="[1.0,2)",com.tantaman.ferox.util;version
  ="[1.0,2)",com.tantaman.lo4j;version="[1.0,2)",io.netty.buffer;version=
  "[4.0,5)",io.netty.channel;version="[4.0,5)",io.netty.handler.codec.htt
  p;version="[4.0,5)",io.netty.util;version="[4.0,5)",io.netty.util.concu
  rrent;version="[4.0,5)"
-Private-Package: com.tantaman.ferox.priv,com.tantaman.ferox.priv.router,
- com.tantaman.ferox.priv.trie
 Service-Component: OSGI-INF/com.tantaman.ferox.priv.FeroxFactories.xml
 Tool: Bnd-2.1.0.20130426-122213
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
