@@ -1,15 +1,19 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ferox.server
-Bundle-SymbolicName: ferox.server
+Bundle-SymbolicName: com.tantaman.ferox.server
 Bundle-Version: 1.0.0
 Export-Package: com.tantaman.ferox.server;uses:="com.tantaman.ferox.api"
  ;version="1.0.0"
-Import-Package: com.tantaman.ferox.api;version="[1.0,2)",com.tantaman.fe
- rox.util;version="[1.0,2)",io.netty.bootstrap;version="[4.0,5)",io.nett
- y.channel;version="[4.0,5)",io.netty.channel.nio;version="[4.0,5)",io.n
- etty.channel.socket;version="[4.0,5)",io.netty.channel.socket.nio;versi
- on="[4.0,5)",io.netty.util.concurrent;version="[4.0,5)"
+Import-Package: com.tantaman.ferox.api;version="[1.0,2)",
+ com.tantaman.ferox.api.server,
+ com.tantaman.ferox.util;version="[1.0,2)",
+ io.netty.bootstrap;version="[4.0,5)",
+ io.netty.channel;version="[4.0,5)",
+ io.netty.channel.nio;version="[4.0,5)",
+ io.netty.channel.socket;version="[4.0,5)",
+ io.netty.channel.socket.nio;version="[4.0,5)",
+ io.netty.util.concurrent;version="[4.0,5)"
 Service-Component: OSGI-INF/com.tantaman.ferox.server.FeroxServerFactori
  es.xml
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7

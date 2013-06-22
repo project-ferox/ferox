@@ -3,6 +3,6 @@
 <component name="com.tantaman.ferox.server.FeroxServerFactories">
   <implementation class="com.tantaman.ferox.server.FeroxServerFactories"/>
   <service>
-    <provide interface="com.tantaman.ferox.api.IFeroxServerFactories"/>
+    <provide interface="com.tantaman.ferox.api.server.IFeroxServerFactories"/>
   </service>
 </component>

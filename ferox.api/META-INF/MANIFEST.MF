@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ferox.api
-Bundle-SymbolicName: ferox.api
+Bundle-SymbolicName: com.tantaman.ferox.api
 Bundle-Version: 1.0.0
 Export-Package: com.tantaman.ferox.api;version="1.0.0";uses:="io.netty.channel,io.netty.handler.codec.http",
  com.tantaman.ferox.api.request_response,

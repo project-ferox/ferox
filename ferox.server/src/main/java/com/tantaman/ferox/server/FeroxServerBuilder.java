@@ -13,7 +13,6 @@ import com.tantaman.ferox.util.Pair;
 
 public class FeroxServerBuilder implements IFeroxServerBuilder {
 	private int port;
-	private boolean ssl;
 	private final List<IPair<String, IChannelHandlerFactory>> handlerFactories;
 	
 	public FeroxServerBuilder() {
@@ -42,10 +41,7 @@ public class FeroxServerBuilder implements IFeroxServerBuilder {
 		return this;
 	}
 	
-	public FeroxServerBuilder ssl(boolean useSsl) {		
-		this.ssl = useSsl;
-		return this;
-	}
+	// TODO: ssl ease..
 	
 	// So we can decide where in the pipeline to put it.
 	public FeroxServerBuilder useFerox(final IChannelHandlerFactory ferox) {

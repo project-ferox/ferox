@@ -23,6 +23,7 @@ public class HttpReception implements IHttpReception {
 		return urlParameters.get(key);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public List<String> getQueryParam(String key) {
 		List<String> param = querystringParameters.get(key);
 		
