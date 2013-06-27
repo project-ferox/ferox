@@ -79,6 +79,10 @@ public class Invoker {
 		new Chainer(handlers.iterator(), response).content(new com.tantaman.ferox.priv.HttpContent(content, urlParameters, querystringParameters, splats, catchall));
 	}
 	
+	public void lastContent(HttpContent content) {
+		new Chainer(handlers.iterator(), response).lastContent(new com.tantaman.ferox.priv.HttpContent(content, urlParameters, querystringParameters, splats, catchall));
+	}
+	
 	private static class Chainer implements IRequestChainer {
 		private final Iterator<IRouteHandler> handlers;
 		private final IResponse response;
@@ -99,6 +103,13 @@ public class Invoker {
 		public void content(IHttpContent content) {
 			if (handlers.hasNext()) {
 				handlers.next().content(content, this.response, this);
+			}
+		}
+		
+		@Override
+		public void lastContent(IHttpContent content) {
+			if (handlers.hasNext()) {
+				handlers.next().lastContent(content, this.response, this);
 			}
 		}
 	}
