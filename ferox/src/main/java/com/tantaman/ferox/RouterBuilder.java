@@ -11,7 +11,7 @@ import com.tantaman.ferox.priv.trie.Trie;
 import com.tantaman.ferox.util.HTTPMethods;
 
 public class RouterBuilder implements IRouterBuilder {
-	private final Map<String, Route> routes;
+	protected final Map<String, Route> routes;
 	
 	public RouterBuilder() {
 		routes = new LinkedHashMap<>();
@@ -64,5 +64,4 @@ public class RouterBuilder implements IRouterBuilder {
 	public IRouter build() {
 		return new Router(new Trie(routes.values()));
 	}
-
 }

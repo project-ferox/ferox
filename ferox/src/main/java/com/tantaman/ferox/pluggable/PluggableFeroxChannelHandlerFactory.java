@@ -1,4 +1,4 @@
-package com.tantaman.ferox.priv.pluggable;
+package com.tantaman.ferox.pluggable;
 
 import io.netty.channel.ChannelHandler;
 
@@ -6,6 +6,7 @@ import com.tantaman.ferox.Ferox;
 import com.tantaman.ferox.api.pluggable.IPluggableChannelHandlerFactory;
 import com.tantaman.ferox.api.router.IRoute;
 import com.tantaman.ferox.api.router.IRouter;
+import com.tantaman.ferox.api.router.IRouterBuilder;
 import com.tantaman.ferox.api.router.pluggable.IPluggableRouterBuilder;
 
 public class PluggableFeroxChannelHandlerFactory implements IPluggableChannelHandlerFactory {
@@ -21,6 +22,16 @@ public class PluggableFeroxChannelHandlerFactory implements IPluggableChannelHan
 	
 	public PluggableFeroxChannelHandlerFactory(IPluggableRouterBuilder routerBuilder) {
 		this.routerBuilder = routerBuilder;
+		
+		routerBuilder.addListener(new IPluggableRouterBuilder.Listener() {
+			@Override
+			public void routesRebuilt(IRouter newRouter) {
+				router = newRouter;
+			}
+			
+			@Override
+			public void newRoutesStaged(IRouterBuilder routerBuilder) {}
+		});
 	}
 	
 	@Override
@@ -33,6 +44,6 @@ public class PluggableFeroxChannelHandlerFactory implements IPluggableChannelHan
 
 	@Override
 	public String getIdentifier() {
-		return null;
+		return "ferox";
 	}
 }
