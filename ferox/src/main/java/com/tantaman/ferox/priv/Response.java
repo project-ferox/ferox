@@ -11,24 +11,26 @@ import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.MessageList;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
+import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.util.CharsetUtil;
 
-import com.tantaman.ferox.api.request_response.IHeaderBuilder;
 import com.tantaman.ferox.api.request_response.IResponse;
-
 
 public class Response implements IResponse {
 	private MessageList<Object> messageList;
 	private ChannelHandlerContext ctx;
 	private boolean close = false;
 	private boolean keepAlive = false;
+	
+	private final HttpHeaders headers;
 
 	public Response() {
 		messageList = MessageList.newInstance();
+		headers = new DefaultHttpHeaders();
 	}
 
 	void setContext(ChannelHandlerContext ctx) {
@@ -48,13 +50,39 @@ public class Response implements IResponse {
 		return close;
 	}
 
-	private void sendFullResponse(String response, String contentType, HttpResponseStatus status) {
+	private void sendFullStringResponse(String response, String contentType, HttpResponseStatus status) {
 		FullHttpResponse httpResponse = new DefaultFullHttpResponse(HTTP_1_1, status,
 				Unpooled.copiedBuffer(response, CharsetUtil.UTF_8));
-
+		
+		// To allow users to specify their own headers
+		httpResponse.headers().set(headers);
 		httpResponse.headers().set(CONTENT_TYPE, contentType + "; charset=UTF-8");
 
-		// keep alive stuff?
+		keepAlive(httpResponse);
+
+		// need to send this as full response in order
+		// to allow fancy transforms down the line
+		messageList.add(httpResponse);
+		write();
+	}
+	
+	// Someone somewhere else down the line must finish filling out this response.
+	private void sendFullObjectResponse(Object response, String contentType, HttpResponseStatus status) {
+		FullHttpResponse httpResponse = new DefaultFullHttpResponse(HTTP_1_1, status);
+		
+		// To allow users to specify their own headers
+		httpResponse.headers().set(headers);
+		httpResponse.headers().set(CONTENT_TYPE, contentType);
+
+		keepAlive(httpResponse);
+
+		// need to send this as full response in order
+		// to allow fancy transforms down the line
+		messageList.add(httpResponse);
+		write();
+	}
+	
+	private void keepAlive(FullHttpResponse httpResponse) {
 		if (keepAlive) {
 			// Add 'Content-Length' header only for a keep-alive connection.
 			httpResponse.headers().set(CONTENT_LENGTH, httpResponse.content().readableBytes());
@@ -62,34 +90,46 @@ public class Response implements IResponse {
 			// - http://www.w3.org/Protocols/HTTP/1.1/draft-ietf-http-v11-spec-01.html#Connection
 			httpResponse.headers().set(CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
 		}
-
-		messageList.add(httpResponse);
-		write();
 	}
 
 	@Override
 	public void send(String response, HttpResponseStatus status) {
-		sendFullResponse(response, "text/html", status);
+		sendFullStringResponse(response, "text/html", status);
 	}
 
 	@Override
 	public void send(String response, String contentType) {
-		sendFullResponse(response, contentType, HttpResponseStatus.OK);
+		sendFullStringResponse(response, contentType, HttpResponseStatus.OK);
 	}
 
 	@Override
 	public void send(String response, String contentType, HttpResponseStatus status) {
-		sendFullResponse(response, contentType, status);
+		sendFullStringResponse(response, contentType, status);
 	}
 
 	@Override
 	public void send(Object response, String contentType, HttpResponseStatus status) {
-		
+		sendFullObjectResponse(response, contentType, status);
 	}
 
 	@Override
 	public void send(Object response, HttpResponseStatus status) {
+		sendFullObjectResponse(response, "applications/json", status);
+	}
 
+	@Override
+	public void send(String response) {
+		sendFullStringResponse(response, "text/html", HttpResponseStatus.OK);
+	}
+
+	@Override
+	public void send(Object response) {
+		sendFullObjectResponse(response, "applications/json", HttpResponseStatus.OK);
+	}
+
+	@Override
+	public void send(Object response, String contentType) {
+		sendFullObjectResponse(response, contentType, HttpResponseStatus.OK);
 	}
 
 	@Override
@@ -115,32 +155,7 @@ public class Response implements IResponse {
 	}
 
 	@Override
-	public IHeaderBuilder getHeaderBuilder() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public HttpHeaders getHeaders() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void send(String response) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void send(Object response) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void send(Object response, String contentType) {
-		// TODO Auto-generated method stub
-		
+	public HttpHeaders headers() {
+		return headers;
 	}
 }

@@ -17,6 +17,7 @@ import com.tantaman.ferox.api.request_response.IResponse;
 import com.tantaman.ferox.api.router.IRouteHandler;
 import com.tantaman.ferox.api.router.IRouteHandlerFactory;
 import com.tantaman.ferox.api.router.IRouterBuilder;
+import com.tantaman.ferox.api.router.RouteHandlerAdapter;
 import com.tantaman.ferox.api.server.IFeroxServer;
 import com.tantaman.ferox.api.server.IFeroxServerBuilder;
 import com.tantaman.ferox.api.server.IFeroxServerFactories;
@@ -66,18 +67,11 @@ public class ExampleServer {
 		routerBuilder.get("/:user/:id", new IRouteHandlerFactory() {
 			@Override
 			public IRouteHandler create() {
-				return new IRouteHandler() {
+				return new RouteHandlerAdapter() {
 					@Override
-					public void content(IHttpContent content,
+					public void lastContent(IHttpContent content,
 							IResponse response, IRequestChainer next) {
-						if (content.isLast()) {
-							response.send("User: " + content.getUrlParam("user") + " id: " + content.getUrlParam("id"), HttpResponseStatus.OK);
-						}
-					}
-					
-					@Override
-					public void request(IHttpRequest request,
-							IResponse response, IRequestChainer next) {
+						response.send("User: " + content.getUrlParam("user") + " id: " + content.getUrlParam("id"), HttpResponseStatus.OK);
 					}
 				};
 			}
@@ -87,18 +81,11 @@ public class ExampleServer {
 			
 			@Override
 			public IRouteHandler create() {
-				return new IRouteHandler() {
-					
+				return new RouteHandlerAdapter() {
 					@Override
-					public void request(IHttpRequest request, IResponse response,
+					public void lastContent(IHttpContent content, IResponse response,
 							IRequestChainer next) {
-					}
-					
-					@Override
-					public void content(IHttpContent content, IResponse response,
-							IRequestChainer next) {
-						if (content.isLast())
-							response.send("Not Found", HttpResponseStatus.NOT_FOUND);
+						response.send("Not Found", HttpResponseStatus.NOT_FOUND);
 					}
 				};
 			}

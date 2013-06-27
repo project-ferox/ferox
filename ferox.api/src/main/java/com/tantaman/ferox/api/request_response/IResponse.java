@@ -11,8 +11,7 @@ public interface IResponse {
 	public ChannelFuture write();
 	public ChannelFuture writePartial();
 	
-	public IHeaderBuilder getHeaderBuilder();
-	public HttpHeaders getHeaders();
+	public HttpHeaders headers();
 	
 	public void send(String response);	// assumes html
 	public void send(String response, String contentType);

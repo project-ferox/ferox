@@ -6,6 +6,7 @@ import io.netty.channel.MessageList;
 import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpRequest;
+import io.netty.handler.codec.http.LastHttpContent;
 import io.netty.handler.codec.http.QueryStringDecoder;
 
 import com.tantaman.ferox.api.router.IRoute;
@@ -50,7 +51,6 @@ public class Ferox extends ChannelInboundHandlerAdapter {
 			IRoute route = router.lookup(method.name(), path);
 			
 			if (route == null) {
-				ctx.fireMessageReceived(msg);
 				return;
 			}
 			
@@ -63,7 +63,10 @@ public class Ferox extends ChannelInboundHandlerAdapter {
 		
 		invoker.setContext(ctx);
 		
-		if (msg instanceof HttpContent) {
+		if (msg instanceof LastHttpContent) {
+			HttpContent httpContent = (HttpContent) msg;
+			invoker.lastContent(httpContent);
+		} else if (msg instanceof HttpContent) {
 			HttpContent httpContent = (HttpContent) msg;
 			invoker.content(httpContent);
 		}

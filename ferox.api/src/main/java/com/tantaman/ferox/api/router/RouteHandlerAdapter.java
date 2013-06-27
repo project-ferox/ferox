@@ -17,14 +17,11 @@ public class RouteHandlerAdapter implements IRouteHandler {
 	@Override
 	public void content(IHttpContent content, IResponse response,
 			IRequestChainer next) {
-		if (content.isLast()) {
-			lastContent(content, response, next);
-		}
 		next.content(content);
 	}
 	
+	@Override
 	public void lastContent(IHttpContent content, IResponse response, IRequestChainer next) {
-		
+		next.lastContent(content);
 	}
-
 }
