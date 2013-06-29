@@ -9,6 +9,7 @@ import com.tantaman.ferox.api.router.IRouter;
 import com.tantaman.ferox.api.router.IRouterBuilder;
 import com.tantaman.ferox.api.router.pluggable.IPluggableRouterBuilder;
 import com.tantaman.ferox.pluggable.PluggableFeroxChannelHandlerFactory;
+import com.tantaman.ferox.pluggable.PluggableRouterBuilder;
 
 public class FeroxFactories implements IFeroxFactories {
 	@Override
@@ -24,7 +25,7 @@ public class FeroxFactories implements IFeroxFactories {
 	
 	@Override
 	public IPluggableRouterBuilder createPluggableRouterBuilder() {
-		return null;
+		return new PluggableRouterBuilder();
 	}
 
 	@Override

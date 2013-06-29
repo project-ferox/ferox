@@ -13,8 +13,7 @@ Import-Package: com.tantaman.ferox.api;version="[1.0,2)",
  io.netty.channel.nio;version="[4.0,5)",
  io.netty.channel.socket;version="[4.0,5)",
  io.netty.channel.socket.nio;version="[4.0,5)",
- io.netty.util.concurrent;version="[4.0,5)",
- org.apache.felix.ipojo.annotations;version="1.8.6"
+ io.netty.util.concurrent;version="[4.0,5)"
 Service-Component: OSGI-INF/com.tantaman.ferox.server.FeroxServerFactori
  es.xml
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7

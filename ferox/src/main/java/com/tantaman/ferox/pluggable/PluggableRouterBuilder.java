@@ -49,7 +49,7 @@ public class PluggableRouterBuilder implements IPluggableRouterBuilder {
 		listeners.add(listener);
 	}
 	
-	public void bindRouteInitializer(final IRouteInitializer routeInitializer) {
+	public void addRouteInitializer(final IRouteInitializer routeInitializer) {
 		builderThread.execute(new Runnable() {
 			@Override
 			public void run() {
@@ -58,7 +58,7 @@ public class PluggableRouterBuilder implements IPluggableRouterBuilder {
 		});
 	}
 	
-	public void unbindRouteInitializer(final IRouteInitializer routeInitializer) {
+	public void removeRouteInitializer(final IRouteInitializer routeInitializer) {
 		builderThread.execute(new Runnable() {
 			@Override
 			public void run() {

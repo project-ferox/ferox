@@ -1,7 +1,7 @@
 <?xml version='1.1'?>
 
-<component name="com.tantaman.ferox.server.standalone.ExampleServer" immediate="true">
-  <implementation class="com.tantaman.ferox.server.standalone.ExampleServer"/>
+<component name="com.tantaman.ferox.server.pluggable.PluggableServer" immediate="true">
+  <implementation class="com.tantaman.ferox.server.pluggable.PluggableServer"/>
   <reference name="feroxFactories" cardinality="1..1" interface="com.tantaman.ferox.api.IFeroxFactories" bind="setFeroxFactories"/>
   <reference name="serverFactories" cardinality="1..1" interface="com.tantaman.ferox.api.server.IFeroxServerFactories" bind="setServerFactories"/>
 </component>
