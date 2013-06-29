@@ -10,7 +10,6 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
-
 public class FeroxServer implements IFeroxServer {
 	private final int port;
 	private final ChannelInitializer<SocketChannel> channelInitializer;

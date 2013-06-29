@@ -23,7 +23,7 @@ public class PluggableFeroxChannelHandlerFactory implements IPluggableChannelHan
 	public PluggableFeroxChannelHandlerFactory(IPluggableRouterBuilder routerBuilder) {
 		this.routerBuilder = routerBuilder;
 		
-		routerBuilder.addListener(new IPluggableRouterBuilder.Listener() {
+		this.routerBuilder.addListener(new IPluggableRouterBuilder.Listener() {
 			@Override
 			public void routesRebuilt(IRouter newRouter) {
 				router = newRouter;

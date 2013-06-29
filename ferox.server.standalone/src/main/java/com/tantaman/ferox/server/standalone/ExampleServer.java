@@ -11,7 +11,6 @@ import org.osgi.service.component.ComponentContext;
 import com.tantaman.ferox.api.IChannelHandlerFactory;
 import com.tantaman.ferox.api.IFeroxFactories;
 import com.tantaman.ferox.api.request_response.IHttpContent;
-import com.tantaman.ferox.api.request_response.IHttpRequest;
 import com.tantaman.ferox.api.request_response.IRequestChainer;
 import com.tantaman.ferox.api.request_response.IResponse;
 import com.tantaman.ferox.api.router.IRouteHandler;
@@ -23,8 +22,8 @@ import com.tantaman.ferox.api.server.IFeroxServerBuilder;
 import com.tantaman.ferox.api.server.IFeroxServerFactories;
 
 public class ExampleServer {
-	private IFeroxFactories feroxFactories;
-	private IFeroxServerFactories serverFactories;
+	private volatile IFeroxFactories feroxFactories;
+	private volatile IFeroxServerFactories serverFactories;
 	
 	public void setFeroxFactories(IFeroxFactories feroxFactories) {
 		this.feroxFactories = feroxFactories;
@@ -35,7 +34,6 @@ public class ExampleServer {
 	}
 
 	public void activate(ComponentContext context) {
-		
 		IFeroxServerBuilder b = serverFactories.createServerBuilder();
 		
 		b.port(8082);

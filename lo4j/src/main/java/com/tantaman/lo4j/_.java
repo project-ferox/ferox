@@ -5,8 +5,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 public class _ {
+	private static final ScheduledExecutorService SCHEDULED_EXEC = Executors.newScheduledThreadPool(1);
+	
 	public static <T> T first(Collection<T> c) {
 		return c.iterator().next();
 	}
@@ -38,5 +44,46 @@ public class _ {
 		}
 		
 		return result;
+	}
+	
+	public static <P> _.Fn<Void, P> debounce(_.Fn<?, P> f, long time, TimeUnit unit) {
+		return new DebouncedFn<P>(f, TimeUnit.MILLISECONDS.convert(time, unit), SCHEDULED_EXEC);
+	}
+	
+	public static <P> _.Fn<Void, P> debounce(_.Fn<?, P> f, long time, TimeUnit unit, ScheduledExecutorService exec) {
+		return new DebouncedFn<P>(f, TimeUnit.MILLISECONDS.convert(time, unit), exec);
+	}
+	
+	private static class DebouncedFn<P> implements _.Fn<Void, P> {
+		private volatile ScheduledFuture<?> future;
+		private final long delay;
+		private final ScheduledExecutorService exec;
+		private final _.Fn<?, P> wrapped;
+		
+		public DebouncedFn(_.Fn<?, P> wrapped, long delay, ScheduledExecutorService exec) {
+			this.delay = delay;
+			this.exec = exec;
+			this.wrapped = wrapped;
+		}
+		
+		@Override
+		public Void f(final P p) {
+			if (future != null) {
+				future.cancel(true);
+			}
+			
+			future = SCHEDULED_EXEC.schedule(new Runnable() {
+				@Override
+				public void run() {
+					wrapped.f(p);
+				}
+			}, delay, TimeUnit.MILLISECONDS);
+			
+			return null;
+		}
+	}
+	
+	public static interface Fn<R, P> {
+		public R f(P p);
 	}
 }
