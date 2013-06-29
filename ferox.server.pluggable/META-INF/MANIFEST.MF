@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ferox.server.pluggable
+Bundle-SymbolicName: com.tantaman.ferox.server.pluggable
+Bundle-Version: 1.0.0.qualifier
+Export-Package: com.tantaman.ferox.server.pluggable
+Import-Package: com.tantaman.ferox.api;version="1.0.0",
+ com.tantaman.ferox.api.server,
+ org.apache.felix.ipojo.annotations,
+ io.netty.channel;version="4.0.0.CR5-SNAPSHOT",
+ io.netty.handler.codec.http;version="4.0.0.CR5-SNAPSHOT",
+ io.netty.handler.stream;version="4.0.0.CR5-SNAPSHOT"
