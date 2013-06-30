@@ -4,6 +4,7 @@ Bundle-Name: ferox.server.pluggable
 Bundle-SymbolicName: com.tantaman.ferox.server.pluggable
 Bundle-Version: 1.0.0.qualifier
 Import-Package: com.tantaman.ferox.api;version="1.0.0",
+ com.tantaman.ferox.api.router.pluggable,
  com.tantaman.ferox.api.server,
  io.netty.channel;version="4.0.0.CR5-SNAPSHOT",
  io.netty.handler.codec.http;version="4.0.0.CR5-SNAPSHOT",

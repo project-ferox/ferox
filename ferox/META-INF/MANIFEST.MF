@@ -16,6 +16,6 @@ Import-Package: com.tantaman.ferox.api;version="[1.0,2)",
  io.netty.handler.codec.http;version="[4.0,5)",
  io.netty.util;version="[4.0,5)",
  io.netty.util.concurrent;version="[4.0,5)"
-Service-Component: OSGI-INF/com.tantaman.ferox.priv.FeroxFactories.xml
+Service-Component: OSGI-INF/*
 Tool: Bnd-2.1.0.20130426-122213
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7

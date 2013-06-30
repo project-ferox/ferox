@@ -1,14 +1,15 @@
 package com.tantaman.ferox.server.pluggable;
 
-import org.osgi.service.component.ComponentContext;
-
 import io.netty.channel.ChannelHandler;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
 import io.netty.handler.stream.ChunkedWriteHandler;
 
+import org.osgi.service.component.ComponentContext;
+
 import com.tantaman.ferox.api.IChannelHandlerFactory;
 import com.tantaman.ferox.api.IFeroxFactories;
+import com.tantaman.ferox.api.router.pluggable.IPluggableRouterBuilder;
 import com.tantaman.ferox.api.server.IFeroxServer;
 import com.tantaman.ferox.api.server.IFeroxServerBuilder;
 import com.tantaman.ferox.api.server.IFeroxServerFactories;
@@ -52,7 +53,9 @@ public class PluggableServer {
 			}
 		});
 		
-		b.use("ferox", feroxFactories.createPluggableFeroxChannelHandlerFactory(feroxFactories.createPluggableRouterBuilder()));
+		// create the router builder via the configuration admin...
+		IPluggableRouterBuilder pluggableRouterBuilder = feroxFactories.createPluggableRouterBuilder();
+		b.use("ferox", feroxFactories.createPluggableFeroxChannelHandlerFactory(pluggableRouterBuilder));
 		
 		IFeroxServer server = b.build();
 		try {

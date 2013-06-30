@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.Executors;
@@ -16,22 +17,20 @@ import com.tantaman.ferox.api.router.IRouteInitializer;
 import com.tantaman.ferox.api.router.IRouter;
 import com.tantaman.ferox.api.router.IRouterBuilder;
 import com.tantaman.ferox.api.router.pluggable.IPluggableRouterBuilder;
-import com.tantaman.lo4j._;
+import com.tantaman.lo4j.Lo;
 
 public class PluggableRouterBuilder implements IPluggableRouterBuilder {
-	// TODO: debounce the `routes staged` events.
-	// TODO: thread confinement?  What threads do service registrations come in on?
 	private static final ScheduledExecutorService builderThread = Executors.newScheduledThreadPool(1);
 	
 	private IRouterBuilder routerBuilder;
 	private final Set<Listener> listeners = new CopyOnWriteArraySet<>();
 	private final Set<IRouteInitializer> routeInitializers;
-	private final _.Fn<Void, Void> debouncedRebuild = _.debounce(new _.Fn<Void, Void>() {
+	private final Lo.Fn<Void, Void> debouncedRebuild = Lo.debounce(new Lo.Fn<Void, Void>() {
 		public Void f(Void p) {
 			rebuildRoutes();
 			return null;
 		};
-	}, 250, TimeUnit.MILLISECONDS, builderThread);
+	}, 500, TimeUnit.MILLISECONDS, builderThread);
 	
 	private static final Comparator<IRouteInitializer> INITIALIZER_COMPARATOR = new Comparator<IRouteInitializer>() {
 		@Override
