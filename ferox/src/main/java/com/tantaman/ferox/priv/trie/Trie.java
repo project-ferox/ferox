@@ -15,8 +15,12 @@ import com.tantaman.ferox.util.ArrayIterator;
 public class Trie {
 	private final Node root; 
 	
+	/** Kept for debug information */
+	private final Collection<Route> routes;
+	
 	public Trie(Collection<Route> routes) {
 		root = new Node();
+		this.routes = routes;
 		
 		for (Route route : routes) {
 			addSegments(route);
@@ -37,5 +41,10 @@ public class Trie {
 		for (IRouteSegment segment : route) {
 			cursor = cursor.addSegment(segment);
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return routes.toString();
 	}
 }

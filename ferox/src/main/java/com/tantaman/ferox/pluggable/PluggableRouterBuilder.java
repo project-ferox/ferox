@@ -94,7 +94,12 @@ public class PluggableRouterBuilder implements IPluggableRouterBuilder {
 		
 		Collections.sort(sortedInitializers, INITIALIZER_COMPARATOR);
 		
+		for (IRouteInitializer initializer : sortedInitializers) {
+			initializer.addRoutes(routerBuilder);
+		}
+		
 		notifyStaged();
+		
 		IRouter router = routerBuilder.build();
 		notifyRebuilt(router);
 	}

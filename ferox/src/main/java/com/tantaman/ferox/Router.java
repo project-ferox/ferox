@@ -34,4 +34,9 @@ public class Router implements IRouter {
 			return segment.getOwner();
 		return null;
 	}
+	
+	@Override
+	public String toString() {
+		return routes.toString();
+	}
 }

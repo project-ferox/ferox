@@ -1,11 +1,11 @@
-package com.tantaman.ferox.server.pluggable;
+package com.tantaman.ferox.server.standalone;
 
 import io.netty.channel.ChannelHandler;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
 import io.netty.handler.stream.ChunkedWriteHandler;
 
-import org.osgi.service.component.ComponentContext;
+import java.util.Map;
 
 import com.tantaman.ferox.api.IChannelHandlerFactory;
 import com.tantaman.ferox.api.IFeroxFactories;
@@ -26,10 +26,17 @@ public class PluggableServer {
 		this.serverFactories = serverFactories;
 	}
 	
-	public void activate(ComponentContext context) {
+	public void activate(Map<String, String> configuration) {
 		IFeroxServerBuilder b = serverFactories.createServerBuilder();
 		
-		b.port(8082);
+		int port = 8080;
+		try {
+			port = Integer.parseInt(configuration.get("port"));
+		} catch (Exception e) {
+			System.err.println("Could not find port in configuration.  Using " + port);
+		}
+		b.port(port);
+		
 		// TODO: the pipeline should probably be pluggable too.
 		// Should we just support the pluggable approach and get rid of the non pluggable approach?
 		b.use("decoder", new IChannelHandlerFactory() {
@@ -53,15 +60,12 @@ public class PluggableServer {
 			}
 		});
 		
-		// create the router builder via the configuration admin...
 		IPluggableRouterBuilder pluggableRouterBuilder = feroxFactories.createPluggableRouterBuilder(null);
 		b.use("ferox", feroxFactories.createPluggableFeroxChannelHandlerFactory(pluggableRouterBuilder));
 		
 		IFeroxServer server = b.build();
-		try {
-			server.runInCurrentThread();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		Thread t = new Thread(server);
+		t.setContextClassLoader(this.getClass().getClassLoader());
+		t.start();
 	}
 }
