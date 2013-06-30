@@ -6,6 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Import-Package: com.tantaman.ferox.api;version="1.0.0",
  com.tantaman.ferox.api.router.pluggable,
  com.tantaman.ferox.api.server,
+ com.tantaman.lo4j;version="1.0.0",
  io.netty.channel;version="4.0.0.CR5-SNAPSHOT",
  io.netty.handler.codec.http;version="4.0.0.CR5-SNAPSHOT",
  io.netty.handler.stream;version="4.0.0.CR5-SNAPSHOT",

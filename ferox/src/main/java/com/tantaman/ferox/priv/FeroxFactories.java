@@ -5,13 +5,21 @@ import com.tantaman.ferox.RouterBuilder;
 import com.tantaman.ferox.api.IChannelHandlerFactory;
 import com.tantaman.ferox.api.IFeroxFactories;
 import com.tantaman.ferox.api.pluggable.IPluggableChannelHandlerFactory;
+import com.tantaman.ferox.api.router.IRouteInitializer;
 import com.tantaman.ferox.api.router.IRouter;
 import com.tantaman.ferox.api.router.IRouterBuilder;
 import com.tantaman.ferox.api.router.pluggable.IPluggableRouterBuilder;
+import com.tantaman.ferox.api.router.pluggable.IPluggableRouterBuilderFactory;
 import com.tantaman.ferox.pluggable.PluggableFeroxChannelHandlerFactory;
-import com.tantaman.ferox.pluggable.PluggableRouterBuilder;
+import com.tantaman.lo4j.Lo.Fn;
 
 public class FeroxFactories implements IFeroxFactories {
+	private volatile IPluggableRouterBuilderFactory pluggableRouterBuilderFactory;
+	
+	public void setPluggableRouterBuilderFactory(IPluggableRouterBuilderFactory factory) {
+		pluggableRouterBuilderFactory = factory;
+	}
+	
 	@Override
 	public IRouterBuilder createRouterBuilder() {
 		return new RouterBuilder();
@@ -24,8 +32,8 @@ public class FeroxFactories implements IFeroxFactories {
 	}
 	
 	@Override
-	public IPluggableRouterBuilder createPluggableRouterBuilder() {
-		return new PluggableRouterBuilder();
+	public IPluggableRouterBuilder createPluggableRouterBuilder(Fn<Boolean, IRouteInitializer> initializerFilter) {
+		return pluggableRouterBuilderFactory.createRouterBuilder(initializerFilter);
 	}
 
 	@Override

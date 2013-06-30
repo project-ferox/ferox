@@ -3,6 +3,9 @@
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0"
 	name="com.tantaman.ferox.pluggable.PluggableRouterBuilderFactory">
   <implementation class="com.tantaman.ferox.pluggable.PluggableRouterBuilderFactory"/>
+  <service>
+    <provide interface="com.tantaman.ferox.api.router.pluggable.IPluggableRouterBuilderFactory"/>
+  </service>
   <reference interface="com.tantaman.ferox.api.router.IRouteInitializer"
   	cardinality="0..n"
   	policy="dynamic"

@@ -54,7 +54,7 @@ public class PluggableServer {
 		});
 		
 		// create the router builder via the configuration admin...
-		IPluggableRouterBuilder pluggableRouterBuilder = feroxFactories.createPluggableRouterBuilder();
+		IPluggableRouterBuilder pluggableRouterBuilder = feroxFactories.createPluggableRouterBuilder(null);
 		b.use("ferox", feroxFactories.createPluggableFeroxChannelHandlerFactory(pluggableRouterBuilder));
 		
 		IFeroxServer server = b.build();
