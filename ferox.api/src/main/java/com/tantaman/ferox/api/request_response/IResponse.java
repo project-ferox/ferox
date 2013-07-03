@@ -22,4 +22,7 @@ public interface IResponse {
 	public void send(Object response, String contentType);
 	public void send(Object response, HttpResponseStatus status);
 	public void send(Object response, String contentType, HttpResponseStatus status);
+	
+	public void setUserData(Object data);
+	public <T> T getUserData();
 }

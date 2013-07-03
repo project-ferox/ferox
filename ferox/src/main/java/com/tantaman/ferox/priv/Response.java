@@ -25,6 +25,7 @@ public class Response implements IResponse {
 	private ChannelHandlerContext ctx;
 	private boolean close = false;
 	private boolean keepAlive = false;
+	private Object userData;
 	
 	private final HttpHeaders headers;
 
@@ -80,6 +81,15 @@ public class Response implements IResponse {
 		// to allow fancy transforms down the line
 		messageList.add(httpResponse);
 		write();
+	}
+	
+	@Override
+	public <T> T getUserData() {
+		return (T)userData;
+	}
+	@Override
+	public void setUserData(Object data) {
+		userData = data;
 	}
 	
 	private void keepAlive(FullHttpResponse httpResponse) {
