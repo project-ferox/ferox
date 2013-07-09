@@ -31,7 +31,10 @@ public class PluggableServer {
 		
 		int port = 8080;
 		try {
-			port = Integer.parseInt(configuration.get("port"));
+			String p = configuration.get("port");
+			if (p == null)
+				p = System.getProperty("port");
+			port = Integer.parseInt(p);
 		} catch (Exception e) {
 			System.err.println("Could not find port in configuration.  Using " + port);
 		}

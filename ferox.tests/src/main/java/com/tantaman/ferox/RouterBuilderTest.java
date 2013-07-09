@@ -1,9 +1,14 @@
 package com.tantaman.ferox;
 
 
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-import static org.junit.Assert.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+
+import org.junit.Test;
 
 import com.tantaman.ferox.api.router.IRouteHandler;
 import com.tantaman.ferox.api.router.IRouteHandlerFactory;
@@ -33,12 +38,12 @@ public class RouterBuilderTest {
 		rb.get("/one", one);
 		
 		IRouter router = rb.build();
-		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/one/two").getHandlers()) == onetwo);
-		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "one/two/").getHandlers()) == onetwo);
-		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/one/").getHandlers()) == one);
-		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/one").getHandlers()) == one);
-		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "one/").getHandlers()) == one);
-		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "one").getHandlers()) == one);
+		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/one/two").getHandlers()).getSecond() == onetwo);
+		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "one/two/").getHandlers()).getSecond() == onetwo);
+		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/one/").getHandlers()).getSecond() == one);
+		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/one").getHandlers()).getSecond() == one);
+		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "one/").getHandlers()).getSecond() == one);
+		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "one").getHandlers()).getSecond() == one);
 		assertTrue(router.lookup(HTTPMethods.GET, "/one/five") == null);
 		
 		rb = new RouterBuilder();
@@ -48,8 +53,8 @@ public class RouterBuilderTest {
 		rb.get("/a/b/c", second);
 		router = rb.build();
 		
-		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/a/b/c").getHandlers()) == first);
-		assertTrue(Lo.last(router.lookup(HTTPMethods.GET, "/a/b/c").getHandlers()) == second);
+		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/a/b/c").getHandlers()).getSecond() == first);
+		assertTrue(Lo.last(router.lookup(HTTPMethods.GET, "/a/b/c").getHandlers()).getSecond() == second);
 	}
 
 	@Test
@@ -62,10 +67,10 @@ public class RouterBuilderTest {
 		rb.get("/users/**", usersanything);
 		
 		IRouter router = rb.build();
-		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/some/stuff").getHandlers()) == trulyanything);
-		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/users/u").getHandlers()) == usersanything);
-		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/users").getHandlers()) == usersanything);
-		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/").getHandlers()) == trulyanything);
+		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/some/stuff").getHandlers()).getSecond() == trulyanything);
+		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/users/u").getHandlers()).getSecond() == usersanything);
+		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/users").getHandlers()).getSecond() == usersanything);
+		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/").getHandlers()).getSecond() == trulyanything);
 		
 		rb = new RouterBuilder();
 		rb.get("/one/**/two", new EmptyFactory());
@@ -91,12 +96,12 @@ public class RouterBuilderTest {
 		
 		IRouter router = rb.build();
 		
-		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/regex").getHandlers()) == regulusOne);
-		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/regexxx").getHandlers()) == regulusOne);
+		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/regex").getHandlers()).getSecond() == regulusOne);
+		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/regexxx").getHandlers()).getSecond() == regulusOne);
 		assertTrue(router.lookup(HTTPMethods.GET, "/rege") == null);
 		
-		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/reggex").getHandlers()) == regTwo);
-		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/regggex").getHandlers()) == regTwo);
+		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/reggex").getHandlers()).getSecond() == regTwo);
+		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/regggex").getHandlers()).getSecond() == regTwo);
 		
 		assertTrue(router.lookup(HTTPMethods.GET, "/regggexxx") == null);
 	}
@@ -131,20 +136,20 @@ public class RouterBuilderTest {
 		
 		IRouter router = rb.build();
 		
-		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/wonderful").getHandlers()) == oneWild);
-		assertTrue(Lo.last(router.lookup(HTTPMethods.GET, "/wonderful").getHandlers()) == oneWildSecondHandler);
+		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/wonderful").getHandlers()).getSecond() == oneWild);
+		assertTrue(Lo.last(router.lookup(HTTPMethods.GET, "/wonderful").getHandlers()).getSecond() == oneWildSecondHandler);
 
-		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/literal").getHandlers()) == oneLiteral);
+		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/literal").getHandlers()).getSecond() == oneLiteral);
 		
-		assertTrue(Lo.first(router.lookup(HTTPMethods.POST, "/sdf").getHandlers()) == oneWildDifferentVerb);
+		assertTrue(Lo.first(router.lookup(HTTPMethods.POST, "/sdf").getHandlers()).getSecond() == oneWildDifferentVerb);
 		
-		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/a/loc/to").getHandlers()) == stuffThenWild);
-		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/a/to/be").getHandlers()) == wildThenStuff);
-		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/wee/to/be").getHandlers()) == wildThenStuff);
+		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/a/loc/to").getHandlers()).getSecond() == stuffThenWild);
+		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/a/to/be").getHandlers()).getSecond() == wildThenStuff);
+		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/wee/to/be").getHandlers()).getSecond() == wildThenStuff);
 		
-		assertTrue(Lo.first(router.lookup(HTTPMethods.POST, "/re/collect").getHandlers()) == collection);
+		assertTrue(Lo.first(router.lookup(HTTPMethods.POST, "/re/collect").getHandlers()).getSecond() == collection);
 		
-		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/a/loc/here/ok").getHandlers()) == surround);
+		assertTrue(Lo.first(router.lookup(HTTPMethods.GET, "/a/loc/here/ok").getHandlers()).getSecond() == surround);
 	}
 	
 	@Test
@@ -165,7 +170,22 @@ public class RouterBuilderTest {
 		EmptyFactory caught = new EmptyFactory();
 		rb.post("/different/late/fail/**", caught);
 		IRouter router = rb.build();
-		assertTrue(Lo.first(router.lookup(HTTPMethods.POST, "/different/late/fail/or/is/it").getHandlers()) == caught);
+		assertTrue(Lo.first(router.lookup(HTTPMethods.POST, "/different/late/fail/or/is/it").getHandlers()).getSecond() == caught);
+	}
+	
+	@Test
+	public void testRoutesWithPriority() {
+		RouterBuilder rb = new RouterBuilder();
+		EmptyFactory first = new EmptyFactory();
+		EmptyFactory second = new EmptyFactory();
+		EmptyFactory third = new EmptyFactory();
+		rb.get("/one", first, 0);
+		rb.get("/one", third, 3);
+		rb.get("/one", second, 2);
+		
+		IRouter router = rb.build();
+		assertEquals((Collection)Arrays.asList(first, second, third), 
+				Lo.pluck(router.lookup(HTTPMethods.GET, "/one").getHandlers(), "getSecond", ArrayList.class));
 	}
 	
 	public void testMultipleWildsAtSamePosition() {

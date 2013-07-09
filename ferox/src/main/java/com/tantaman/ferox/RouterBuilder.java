@@ -9,6 +9,8 @@ import com.tantaman.ferox.api.router.IRouterBuilder;
 import com.tantaman.ferox.priv.router.Route;
 import com.tantaman.ferox.priv.trie.Trie;
 import com.tantaman.ferox.util.HTTPMethods;
+import com.tantaman.ferox.util.IPair;
+import com.tantaman.ferox.util.Pair;
 
 public class RouterBuilder implements IRouterBuilder {
 	protected final Map<String, Route> routes;
@@ -17,7 +19,8 @@ public class RouterBuilder implements IRouterBuilder {
 		routes = new LinkedHashMap<>();
 	}
 	
-	private IRouterBuilder add(String method, String path, IRouteHandlerFactory ... routeHandlers) {
+	@SafeVarargs
+	private final IRouterBuilder add(String method, String path, IPair<Integer, IRouteHandlerFactory> ... routeHandlers) {
 		if (path.charAt(0) == '/')
 			path = path.substring(1);
 		
@@ -32,23 +35,57 @@ public class RouterBuilder implements IRouterBuilder {
 	}
 	
 	@Override
+	public IRouterBuilder get(String path, IRouteHandlerFactory routeHandler,
+			int priority) {
+		return add(HTTPMethods.GET, path, new Pair<>(priority, routeHandler));
+	}
+
+	@Override
+	public IRouterBuilder put(String path, IRouteHandlerFactory routeHandler,
+			int priority) {
+		return add(HTTPMethods.PUT, path, new Pair<>(priority, routeHandler));
+	}
+
+	@Override
+	public IRouterBuilder post(String path, IRouteHandlerFactory routeHandler,
+			int priority) {
+		return add(HTTPMethods.POST, path, new Pair<>(priority, routeHandler));
+	}
+
+	@Override
+	public IRouterBuilder delete(String path,
+			IRouteHandlerFactory routeHandler, int priority) {
+		return add(HTTPMethods.DELETE, path, new Pair<>(priority, routeHandler));
+	}
+
+	@Override
+	public IRouterBuilder all(String path, IRouteHandlerFactory routeHandler,
+			int priority) {
+		get(path, routeHandler, priority);
+		put(path, routeHandler, priority);
+		post(path, routeHandler, priority);
+		delete(path, routeHandler, priority);
+		return this;
+	}
+	
+	@Override
 	public IRouterBuilder get(String path, IRouteHandlerFactory routeHandlerFactory) {
-		return add(HTTPMethods.GET, path, routeHandlerFactory);
+		return get(path, routeHandlerFactory, 10);
 	}
 
 	@Override
 	public IRouterBuilder put(String path, IRouteHandlerFactory routeHandlerFactory) {
-		return add(HTTPMethods.PUT, path, routeHandlerFactory);
+		return put(path, routeHandlerFactory, 10);
 	}
 
 	@Override
 	public IRouterBuilder post(String path, IRouteHandlerFactory routeHandlerFactory) {
-		return add(HTTPMethods.POST, path, routeHandlerFactory);
+		return post(path, routeHandlerFactory, 10);
 	}
 
 	@Override
 	public IRouterBuilder delete(String path, IRouteHandlerFactory routeHandlerFactory) {
-		return add(HTTPMethods.DELETE, path, routeHandlerFactory);
+		return delete(path, routeHandlerFactory, 10);
 	}
 
 	@Override

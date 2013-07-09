@@ -20,6 +20,7 @@ import com.tantaman.ferox.api.router.IRouteHandler;
 import com.tantaman.ferox.api.router.IRouteHandlerFactory;
 import com.tantaman.ferox.api.router.IRouteSegment;
 import com.tantaman.ferox.api.router.IRouteSegment.Type;
+import com.tantaman.ferox.util.IPair;
 
 public class Invoker {
 	private final List<IRouteHandler> handlers;
@@ -32,8 +33,8 @@ public class Invoker {
 	public Invoker(IRoute route, String method, String path, Map<String, List<String>> querystringParameters) {
 		handlers = new LinkedList<>();
 		
-		for (IRouteHandlerFactory f : route.getHandlers()) {
-			handlers.add(f.create());
+		for (IPair<Integer, IRouteHandlerFactory> f : route.getHandlers()) {
+			handlers.add(f.getSecond().create());
 		}
 		
 		this.querystringParameters = querystringParameters;
