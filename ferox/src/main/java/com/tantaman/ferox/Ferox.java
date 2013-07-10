@@ -40,6 +40,7 @@ public class Ferox extends ChannelInboundHandlerAdapter {
 	
 	private void messageReceived(ChannelHandlerContext ctx, Object msg) {
 		if (msg instanceof TrackedHttpRequest) {
+			invoker = null;
 			TrackedHttpRequest trackedRequest = (TrackedHttpRequest)msg;
 			HttpRequest request = trackedRequest.getRawRequest();
 			// so instanceof checks work correclty below
