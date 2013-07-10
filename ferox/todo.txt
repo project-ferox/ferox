@@ -1,6 +1,8 @@
 Ferox shouldn't depend directly on the middleware bundle.
 That or we should have a "core middleware" and then the other middleware.
 
+Need some sort of high level exception handler that'll dispose of the tracked request objects...
+
 
 Allow addition of ferox downstream handlers.
   -this'll allow other webfinger users (for example) to tack on additional links to an identity.

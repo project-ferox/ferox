@@ -173,6 +173,7 @@ public class RouterBuilderTest {
 		assertTrue(Lo.first(router.lookup(HTTPMethods.POST, "/different/late/fail/or/is/it").getHandlers()).getSecond() == caught);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@Test
 	public void testRoutesWithPriority() {
 		RouterBuilder rb = new RouterBuilder();

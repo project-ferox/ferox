@@ -51,7 +51,7 @@ public class Response implements IResponse {
 		return close;
 	}
 
-	private void sendFullStringResponse(String response, String contentType, HttpResponseStatus status) {
+	private ChannelFuture sendFullStringResponse(String response, String contentType, HttpResponseStatus status) {
 		FullHttpResponse httpResponse = new DefaultFullHttpResponse(HTTP_1_1, status,
 				Unpooled.copiedBuffer(response, CharsetUtil.UTF_8));
 		
@@ -64,11 +64,11 @@ public class Response implements IResponse {
 		// need to send this as full response in order
 		// to allow fancy transforms down the line
 		messageList.add(httpResponse);
-		write();
+		return write();
 	}
 	
 	// Someone somewhere else down the line must finish filling out this response.
-	private void sendFullObjectResponse(Object response, String contentType, HttpResponseStatus status) {
+	private ChannelFuture sendFullObjectResponse(Object response, String contentType, HttpResponseStatus status) {
 		FullHttpResponse httpResponse = new DefaultFullHttpResponse(HTTP_1_1, status);
 		
 		// To allow users to specify their own headers
@@ -80,9 +80,10 @@ public class Response implements IResponse {
 		// need to send this as full response in order
 		// to allow fancy transforms down the line
 		messageList.add(httpResponse);
-		write();
+		return write();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T getUserData() {
 		return (T)userData;
@@ -103,43 +104,43 @@ public class Response implements IResponse {
 	}
 
 	@Override
-	public void send(String response, HttpResponseStatus status) {
-		sendFullStringResponse(response, "text/html", status);
+	public ChannelFuture send(String response, HttpResponseStatus status) {
+		return sendFullStringResponse(response, "text/html", status);
 	}
 
 	@Override
-	public void send(String response, String contentType) {
-		sendFullStringResponse(response, contentType, HttpResponseStatus.OK);
+	public ChannelFuture send(String response, String contentType) {
+		return sendFullStringResponse(response, contentType, HttpResponseStatus.OK);
 	}
 
 	@Override
-	public void send(String response, String contentType, HttpResponseStatus status) {
-		sendFullStringResponse(response, contentType, status);
+	public ChannelFuture send(String response, String contentType, HttpResponseStatus status) {
+		return sendFullStringResponse(response, contentType, status);
 	}
 
 	@Override
-	public void send(Object response, String contentType, HttpResponseStatus status) {
-		sendFullObjectResponse(response, contentType, status);
+	public ChannelFuture send(Object response, String contentType, HttpResponseStatus status) {
+		return sendFullObjectResponse(response, contentType, status);
 	}
 
 	@Override
-	public void send(Object response, HttpResponseStatus status) {
-		sendFullObjectResponse(response, "application/json", status);
+	public ChannelFuture send(Object response, HttpResponseStatus status) {
+		return sendFullObjectResponse(response, "application/json", status);
 	}
 
 	@Override
-	public void send(String response) {
-		sendFullStringResponse(response, "text/html", HttpResponseStatus.OK);
+	public ChannelFuture send(String response) {
+		return sendFullStringResponse(response, "text/html", HttpResponseStatus.OK);
 	}
 
 	@Override
-	public void send(Object response) {
-		sendFullObjectResponse(response, "application/json", HttpResponseStatus.OK);
+	public ChannelFuture send(Object response) {
+		return sendFullObjectResponse(response, "application/json", HttpResponseStatus.OK);
 	}
 
 	@Override
-	public void send(Object response, String contentType) {
-		sendFullObjectResponse(response, contentType, HttpResponseStatus.OK);
+	public ChannelFuture send(Object response, String contentType) {
+		return sendFullObjectResponse(response, contentType, HttpResponseStatus.OK);
 	}
 
 	@Override

@@ -73,7 +73,9 @@ public class Lo {
 		return c;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <R, P> Collection<R> map(Collection<P> c, Fn<R, P> f) {
+		@SuppressWarnings("rawtypes")
 		List<R> l = new ArrayList();
 
 		for (P p : c) {
@@ -85,6 +87,7 @@ public class Lo {
 		return l;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <R, P> Collection<R> map(Collection<P> c, String f) {
 		List<R> result = new ArrayList<>();
 
@@ -138,6 +141,7 @@ public class Lo {
 		return new ArrayList<>(result);
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <R> R[] drop(R[] a, int n) {
 		R[] result = (R[]) Array.newInstance(a[0].getClass(), n);
 		System.arraycopy(a, 0, result, 0, n);
@@ -145,6 +149,7 @@ public class Lo {
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <R> R[] rest(R [] a) {
 		R [] result = (R[])Array.newInstance(a[0].getClass(), a.length - 1);
 
@@ -189,6 +194,8 @@ public class Lo {
 		return result;
 	}
 
+	@SuppressWarnings("unchecked")
+	@SafeVarargs
 	public static <T> Map<T, T> createMapReversed(T... args) {
 		if (args ==null || args.length < 2)
 			return Collections.EMPTY_MAP;
@@ -201,13 +208,14 @@ public class Lo {
 		return r;
 	}
 	
+	@SafeVarargs
 	public static <T> List<T> newList(T... args) {
 		return Arrays.asList(args);
 	}
 
 	public static <T> Set<T> toSet(Collection<T> c) {
 		if (c instanceof Set)
-			return (Set)c;
+			return (Set<T>)c;
 
 		Set<T> r = new HashSet<>();
 		r.addAll(c);
@@ -244,11 +252,12 @@ public class Lo {
 		return result;
 	}
 
-	public static <P, T> Collection<T> pluck(Collection<P> c, String m, Class returnCollectionType) {
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static <P, T> Collection<T> pluck(Collection<P> c, String m, Class<? extends Collection> returnCollectionType) {
 		if (c.isEmpty())
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 
-		Collection<T> r = Collections.EMPTY_LIST;
+		Collection<T> r = Collections.emptyList();
 
 		try {
 			r = (Collection<T>)returnCollectionType.newInstance();
@@ -272,14 +281,15 @@ public class Lo {
 	// todo indexof
 	// todo bin search
 
+	@SuppressWarnings("unchecked")
 	public static Collection<Object> flatten(Object c, int depth) {
-		if (depth == 0) return Collections.EMPTY_LIST;
+		if (depth == 0) return Collections.emptyList();
 
-		List<Object> result = new ArrayList();
+		List<Object> result = new ArrayList<Object>();
 
 		Collection<Object> collection;
 		if (c instanceof Map) {
-			collection = ((Map) c).values();
+			collection = ((Map<Object, Object>) c).values();
 		} else {
 			collection = (Collection<Object>) c;
 		}
@@ -289,7 +299,7 @@ public class Lo {
 				result.addAll(Lo.flatten((Collection<Object>)o, depth - 1));
 			} else if (o instanceof Map) {
 				// todo flatten values ofmap
-				result.addAll(((Map) o).values());
+				result.addAll(((Map<Object, Object>) o).values());
 			} else {
 				result.add(o);
 			}
@@ -299,7 +309,7 @@ public class Lo {
 	}
 
 	public static <K,V> Map<K, V> zipmap(Collection<K> keys, Collection<V> values) {
-		Map<K, V> result = new HashMap();
+		Map<K, V> result = new HashMap<K, V>();
 
 		Iterator<K> keyIter = keys.iterator();
 		Iterator<V> valIter = values.iterator();
@@ -432,6 +442,9 @@ public class Lo {
 		
 		public DebouncedFn(Lo.Fn<?, P> wrapped, long delay, ScheduledExecutorService exec) {
 			this.delay = delay;
+			if (exec == null)
+				exec = SCHEDULED_EXEC;
+			
 			this.exec = exec;
 			this.wrapped = wrapped;
 		}
@@ -442,7 +455,7 @@ public class Lo {
 				future.cancel(true);
 			}
 			
-			future = SCHEDULED_EXEC.schedule(new Runnable() {
+			future = exec.schedule(new Runnable() {
 				@Override
 				public void run() {
 					wrapped.f(p);

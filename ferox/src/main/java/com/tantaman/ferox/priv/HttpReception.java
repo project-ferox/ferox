@@ -1,5 +1,9 @@
 package com.tantaman.ferox.priv;
 
+import io.netty.handler.codec.http.HttpHeaders;
+import io.netty.handler.codec.http.HttpMethod;
+import io.netty.handler.codec.http.LastHttpContent;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -13,8 +17,9 @@ public class HttpReception implements IHttpReception {
 	private final List<String> splats;
 	private final String catchall;
 	private final ITrackedHttpRequest trackedRequest;
+	private final Object rawContent;
 	
-	public HttpReception(Map<String, String> urlParams,
+	public HttpReception(Object raw, Map<String, String> urlParams,
 						 Map<String, List<String>> query,
 						 List<String> splats,
 						 String catchall,
@@ -24,6 +29,12 @@ public class HttpReception implements IHttpReception {
 		this.splats = Collections.unmodifiableList(splats);
 		this.catchall = catchall;
 		this.trackedRequest = trackedRequest;
+		rawContent = raw;
+	}
+	
+	@Override
+	public HttpMethod getMethod() {
+		return trackedRequest.getRawRequest().getMethod();
 	}
 	
 	public String getUrlParam(String key) {
@@ -47,7 +58,20 @@ public class HttpReception implements IHttpReception {
 	
 	@Override
 	public void dispose() {
-		if (trackedRequest != null)
-			trackedRequest.dispose();
+		trackedRequest.dispose();
+	}
+	
+	public boolean isLast() {
+		return rawContent instanceof LastHttpContent;
+	}
+	
+	@Override
+	public String getUri() {
+		return trackedRequest.getRawRequest().getUri();
+	}
+	
+	@Override
+	public HttpHeaders getHeaders() {
+		return trackedRequest.getRawRequest().headers();
 	}
 }
