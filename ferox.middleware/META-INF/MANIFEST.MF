@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ferox.Middleware
+Bundle-SymbolicName: ferox.middleware
+Bundle-Version: 0.0.1.SNAPSHOT
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Import-Package: io.netty.channel,
+ io.netty.handler.codec;version="[4.0,5)",
+ io.netty.util;version="[4.0,5)",
+ io.netty.buffer;version="[4.0,5)",
+ io.netty.handler.codec.http;version="4.0.0.CR5-SNAPSHOT",
+ io.netty.handler.codec.http.multipart;version="4.0.0.CR5-SNAPSHOT"
+Export-Package: com.tantaman.ferox.middleware,
+ com.tantaman.ferox.middleware.message_types

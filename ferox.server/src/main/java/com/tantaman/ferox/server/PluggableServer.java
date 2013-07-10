@@ -14,6 +14,7 @@ import com.tantaman.ferox.api.server.IFeroxServer;
 import com.tantaman.ferox.api.server.IFeroxServerBuilder;
 import com.tantaman.ferox.api.server.IFeroxServerFactories;
 import com.tantaman.ferox.api.server.IPluggableServer;
+import com.tantaman.ferox.middleware.HttpRequestConverter;
 
 public class PluggableServer implements IPluggableServer {
 	private volatile IFeroxFactories feroxFactories;
@@ -49,6 +50,14 @@ public class PluggableServer implements IPluggableServer {
 			@Override
 			public ChannelHandler create() {
 				return new ChunkedWriteHandler();
+			}
+		});
+		
+		final HttpRequestConverter converter = new HttpRequestConverter();
+		serverBuilder.use("requestConverter", new IChannelHandlerFactory() {
+			@Override
+			public ChannelHandler create() {
+				return converter;
 			}
 		});
 	}

@@ -20,18 +20,25 @@ import com.tantaman.ferox.api.router.IRouteHandler;
 import com.tantaman.ferox.api.router.IRouteHandlerFactory;
 import com.tantaman.ferox.api.router.IRouteSegment;
 import com.tantaman.ferox.api.router.IRouteSegment.Type;
+import com.tantaman.ferox.middleware.message_types.TrackedHttpRequest;
 import com.tantaman.ferox.util.IPair;
 
 public class Invoker {
 	private final List<IRouteHandler> handlers;
-	private Map<String, String> urlParameters;
-	private Map<String, List<String>> querystringParameters;
-	private List<String> splats;
-	private String catchall;
-	private Response response;
+	private final TrackedHttpRequest trackedRequest;
+	private final Map<String, String> urlParameters;
+	private final Map<String, List<String>> querystringParameters;
+	private final List<String> splats;
+	private final String catchall;
+	private final Response response;
 	
-	public Invoker(IRoute route, String method, String path, Map<String, List<String>> querystringParameters) {
+	public Invoker(IRoute route,
+				   String method,
+				   String path,
+				   Map<String, List<String>> querystringParameters,
+				   TrackedHttpRequest trackedRequest) {
 		handlers = new LinkedList<>();
+		this.trackedRequest = trackedRequest;
 		
 		for (IPair<Integer, IRouteHandlerFactory> f : route.getHandlers()) {
 			handlers.add(f.getSecond().create());
@@ -42,11 +49,12 @@ public class Invoker {
 		urlParameters = new HashMap<String, String>();
 		splats = new ArrayList<>();
 		response = new Response();
-		extractUrlParameters(route, path);
+		catchall = extractUrlParameters(route, path);
 	}
 	
-	private void extractUrlParameters(IRoute route, String path) {
+	private String extractUrlParameters(IRoute route, String path) {
 		String [] parts = path.split("/");
+		String catchall = null;
 		int i = 0;
 		for (IRouteSegment seg : route) {
 			if (seg.type() == Type.CATCHALL) {
@@ -61,6 +69,8 @@ public class Invoker {
 			}
 			++i;
 		}
+		
+		return catchall;
 	}
 	
 	public void setContext(ChannelHandlerContext ctx) {
@@ -73,15 +83,18 @@ public class Invoker {
 
 	public void request(HttpRequest request) {
 		response.setRequest(request);
-		new Chainer(handlers.iterator(), response).request(new com.tantaman.ferox.priv.HttpRequest(request, urlParameters, querystringParameters, splats, catchall));
+		new Chainer(handlers.iterator(), response).request(
+				new com.tantaman.ferox.priv.HttpRequest(urlParameters, querystringParameters, splats, catchall, trackedRequest));
 	}
 	
 	public void content(HttpContent content) {
-		new Chainer(handlers.iterator(), response).content(new com.tantaman.ferox.priv.HttpContent(content, urlParameters, querystringParameters, splats, catchall));
+		new Chainer(handlers.iterator(), response).content(
+				new com.tantaman.ferox.priv.HttpContent(content, urlParameters, querystringParameters, splats, catchall, trackedRequest));
 	}
 	
 	public void lastContent(HttpContent content) {
-		new Chainer(handlers.iterator(), response).lastContent(new com.tantaman.ferox.priv.HttpContent(content, urlParameters, querystringParameters, splats, catchall));
+		new Chainer(handlers.iterator(), response).lastContent(
+				new com.tantaman.ferox.priv.HttpContent(content, urlParameters, querystringParameters, splats, catchall, trackedRequest));
 	}
 	
 	private static class Chainer implements IRequestChainer {

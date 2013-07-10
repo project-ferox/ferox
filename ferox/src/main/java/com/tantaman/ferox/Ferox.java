@@ -11,6 +11,7 @@ import io.netty.handler.codec.http.QueryStringDecoder;
 
 import com.tantaman.ferox.api.router.IRoute;
 import com.tantaman.ferox.api.router.IRouter;
+import com.tantaman.ferox.middleware.message_types.TrackedHttpRequest;
 import com.tantaman.ferox.priv.Invoker;
 
 public class Ferox extends ChannelInboundHandlerAdapter {
@@ -28,9 +29,6 @@ public class Ferox extends ChannelInboundHandlerAdapter {
             for (int i = 0; i < size; i ++) {
             	messageReceived(ctx, msgs.get(i));
             	
-            	// TODO: do we really want to do this here?
-            	ctx.fireMessageReceived(msgs.get(i));
-            	
                 if (invoker != null && invoker.getClose()) {
                     break;
                 }
@@ -41,8 +39,9 @@ public class Ferox extends ChannelInboundHandlerAdapter {
     }
 	
 	private void messageReceived(ChannelHandlerContext ctx, Object msg) {
-		if (msg instanceof HttpRequest) {
-			HttpRequest request = (HttpRequest)msg;
+		if (msg instanceof TrackedHttpRequest) {
+			TrackedHttpRequest trackedRequest = (TrackedHttpRequest)msg;
+			HttpRequest request = trackedRequest.getRawRequest();
 			String uri = request.getUri();
 			HttpMethod method = request.getMethod();
 			
@@ -54,7 +53,7 @@ public class Ferox extends ChannelInboundHandlerAdapter {
 				return;
 			}
 			
-			invoker = new Invoker(route, method.name(), path, decoder.parameters());
+			invoker = new Invoker(route, method.name(), path, decoder.parameters(), trackedRequest);
 			invoker.setContext(ctx);
 			invoker.request(request);
 		}
