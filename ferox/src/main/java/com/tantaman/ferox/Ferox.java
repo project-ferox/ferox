@@ -28,6 +28,7 @@ public class Ferox extends ChannelInboundHandlerAdapter {
             for (int i = 0; i < size; i ++) {
             	messageReceived(ctx, msgs.get(i));
             	
+            	// TODO: do we really want to do this here?
             	ctx.fireMessageReceived(msgs.get(i));
             	
                 if (invoker != null && invoker.getClose()) {
@@ -35,7 +36,6 @@ public class Ferox extends ChannelInboundHandlerAdapter {
                 }
             }
         } finally {
-        	// TODO: is this a safe place to do this?
             msgs.releaseAllAndRecycle();
         }
     }

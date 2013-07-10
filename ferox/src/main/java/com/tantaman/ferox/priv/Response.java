@@ -124,7 +124,7 @@ public class Response implements IResponse {
 
 	@Override
 	public void send(Object response, HttpResponseStatus status) {
-		sendFullObjectResponse(response, "applications/json", status);
+		sendFullObjectResponse(response, "application/json", status);
 	}
 
 	@Override
@@ -134,7 +134,7 @@ public class Response implements IResponse {
 
 	@Override
 	public void send(Object response) {
-		sendFullObjectResponse(response, "applications/json", HttpResponseStatus.OK);
+		sendFullObjectResponse(response, "application/json", HttpResponseStatus.OK);
 	}
 
 	@Override

@@ -395,6 +395,14 @@ public class Lo {
 	public static interface Fn2<R, P1, P2> extends Function {
 		public R f(P1 p1, P2 p2);
 	}
+	
+	public static interface VFn<P> extends Function {
+		public void f(P p);
+	}
+	
+	public static interface VFn2<P1, P2> extends Function {
+		public void f(P1 p1, P2 p2);
+	}
 
 	public static class Negate<P> implements Fn<Boolean, P> {
 		private final Fn<Boolean, P> wrapped;
