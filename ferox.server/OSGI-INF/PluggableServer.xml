@@ -1,7 +1,10 @@
 <?xml version='1.1'?>
 
-<scr:component name="com.tantaman.ferox.server.standalone.PluggableServer" xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true">
-  <implementation class="com.tantaman.ferox.server.standalone.PluggableServer"/>
+<scr:component name="com.tantaman.ferox.server.PluggableServer" xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true">
+  <implementation class="com.tantaman.ferox.server.PluggableServer"/>
   <reference name="feroxFactories" cardinality="1..1" interface="com.tantaman.ferox.api.IFeroxFactories" bind="setFeroxFactories"/>
   <reference name="serverFactories" cardinality="1..1" interface="com.tantaman.ferox.api.server.IFeroxServerFactories" bind="setServerFactories"/>
+  <service>
+    <provide interface="com.tantaman.ferox.api.server.IPluggableServer"/>
+  </service>
 </scr:component>

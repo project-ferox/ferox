@@ -15,33 +15,63 @@ public class FeroxServerBuilder implements IFeroxServerBuilder {
 	private int port;
 	private final List<IPair<String, IChannelHandlerFactory>> handlerFactories;
 	
+//	private static class LazySSL {
+//		private static final SSLContext SERVER_CONTEXT;
+//
+//	    static {
+//	        String algorithm = Security.getProperty("ssl.KeyManagerFactory.algorithm");
+//	        if (algorithm == null) {
+//	            algorithm = "SunX509";
+//	        }
+//
+//	        SSLContext serverContext;
+//	        SSLContext clientContext;
+//	        try {
+//	            KeyStore ks = KeyStore.getInstance("JKS");
+//	            ks.load(SecureChatKeyStore.asInputStream(),
+//	                    SecureChatKeyStore.getKeyStorePassword());
+//
+//	            // Set up key manager factory to use our key store
+//	            KeyManagerFactory kmf = KeyManagerFactory.getInstance(algorithm);
+//	            kmf.init(ks, SecureChatKeyStore.getCertificatePassword());
+//
+//	            // Initialize the SSLContext to work with our key managers.
+//	            serverContext = SSLContext.getInstance(PROTOCOL);
+//	            serverContext.init(kmf.getKeyManagers(), null, null);
+//	        } catch (Exception e) {
+//	            throw new Error(
+//	                    "Failed to initialize the server-side SSLContext", e);
+//	        }
+//
+//	        SERVER_CONTEXT = serverContext;
+//	    }
+//	}
+	
 	public FeroxServerBuilder() {
 		handlerFactories = new LinkedList<>();
 	}
 	
-	/*
-	 * 
-        // Uncomment the following line if you want HTTPS
-        //SSLEngine engine = SecureChatSslContextFactory.getServerContext().createSSLEngine();
-        //engine.setUseClientMode(false);
-        //p.addLast("ssl", new SslHandler(engine));
+	@Override
+	public IFeroxServerBuilder ssl(boolean useSsl) {
+//		if (useSsl) {
+//			final SSLEngine engine = LazySSL.SERVER_CONTEXT.createSSLEngine();
+//			engine.setUseClientMode(false);
+//			handlerFactories.add(0, new Pair<String, IChannelHandlerFactory>("ssl", new IChannelHandlerFactory() {
+//				
+//				@Override
+//				public ChannelHandler create() {
+//					return new SslHandler(engine);
+//				}
+//			}));
+//		}
+		
+		return this;
+	}
 
-        p.addLast("decoder", new HttpRequestDecoder());
-        // Uncomment the following line if you don't want to handle HttpChunks.
-        //p.addLast("aggregator", new HttpObjectAggregator(1048576));
-        p.addLast("encoder", new HttpResponseEncoder());
-        // Remove the following line if you don't want automatic content compression.
-        //p.addLast("deflater", new HttpContentCompressor());
-        p.addLast("handler", new HttpSnoopServerHandler());
-        p.addLast("chunkedWriter", new ChunkedWriteHandler());
-	 */
-	
 	public FeroxServerBuilder port(int port) {
 		this.port = port;
 		return this;
 	}
-	
-	// TODO: ssl ease..
 	
 	// So we can decide where in the pipeline to put it.
 	public FeroxServerBuilder useFerox(final IChannelHandlerFactory ferox) {

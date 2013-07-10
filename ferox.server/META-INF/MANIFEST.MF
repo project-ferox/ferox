@@ -6,14 +6,20 @@ Bundle-Version: 1.0.0
 Export-Package: com.tantaman.ferox.server;uses:="com.tantaman.ferox.api"
  ;version="1.0.0"
 Import-Package: com.tantaman.ferox.api;version="[1.0,2)",
+ com.tantaman.ferox.api.pluggable,
+ com.tantaman.ferox.api.router.pluggable,
  com.tantaman.ferox.api.server,
  com.tantaman.ferox.util;version="[1.0,2)",
+ com.tantaman.lo4j;version="1.0.0",
  io.netty.bootstrap;version="[4.0,5)",
  io.netty.channel;version="[4.0,5)",
  io.netty.channel.nio;version="[4.0,5)",
  io.netty.channel.socket;version="[4.0,5)",
  io.netty.channel.socket.nio;version="[4.0,5)",
+ io.netty.handler.codec;version="[4.0,5)",
+ io.netty.handler.codec.http;version="4.0.0.CR5-SNAPSHOT",
+ io.netty.handler.ssl;version="4.0.0.CR5-SNAPSHOT",
+ io.netty.handler.stream;version="4.0.0.CR5-SNAPSHOT",
  io.netty.util.concurrent;version="[4.0,5)"
-Service-Component: OSGI-INF/com.tantaman.ferox.server.FeroxServerFactori
- es.xml
+Service-Component: OSGI-INF/*
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7

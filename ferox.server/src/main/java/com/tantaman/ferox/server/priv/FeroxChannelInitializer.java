@@ -21,8 +21,12 @@ public class FeroxChannelInitializer extends ChannelInitializer<SocketChannel> {
 	protected void initChannel(SocketChannel ch) throws Exception {
 		ChannelPipeline p = ch.pipeline();
 		
-		for (IPair<String, IChannelHandlerFactory> entries : handlerFactories) {
-			p.addLast(entries.getFirst(), entries.getSecond().create());
+		for (IPair<String, IChannelHandlerFactory> entry : handlerFactories) {
+			if (entry.getFirst() == null) {
+				p.addLast(entry.getSecond().create());
+			} else {
+				p.addLast(entry.getFirst(), entry.getSecond().create());
+			}
 		}
 	}
 
