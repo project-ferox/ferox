@@ -1,5 +1,7 @@
 package com.tantaman.ferox.middleware;
 
-public class CsrfHandler {
+import io.netty.channel.ChannelInboundHandlerAdapter;
+
+public class CsrfHandler extends ChannelInboundHandlerAdapter {
 
 }

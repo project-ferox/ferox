@@ -1,3 +1,7 @@
+Ferox shouldn't depend directly on the middleware bundle.
+That or we should have a "core middleware" and then the other middleware.
+
+
 Allow addition of ferox downstream handlers.
   -this'll allow other webfinger users (for example) to tack on additional links to an identity.
 Allow builder type construction of full responses.

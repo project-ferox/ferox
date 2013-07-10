@@ -22,8 +22,8 @@ import io.netty.handler.codec.http.multipart.InterfaceHttpData.HttpDataType;
 import com.tantaman.ferox.middleware.message_types.TrackedHttpRequest;
 
 public class BodyParser extends ChannelInboundHandlerAdapter {
-	private HttpPostRequestDecoder decoder;
 	private static final HttpDataFactory factory = new DefaultHttpDataFactory(262144);
+	private HttpPostRequestDecoder decoder;
 	private TrackedHttpRequest trackedRequest;
 
 	static {
