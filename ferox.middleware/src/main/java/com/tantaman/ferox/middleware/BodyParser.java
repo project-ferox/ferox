@@ -50,6 +50,9 @@ public class BodyParser extends ChannelInboundHandlerAdapter {
 				if (msg instanceof TrackedHttpRequest) {
 					trackedRequest = (TrackedHttpRequest)msg;
 					HttpRequest request = trackedRequest.getRawRequest();
+					// reset msg for correct instanceof check and processing later.
+					// FullHttpRequest would come in as a TrackedHttpRequest.
+					msg = request;
 
 					try {
 						decoder = new HttpPostRequestDecoder(factory, request);

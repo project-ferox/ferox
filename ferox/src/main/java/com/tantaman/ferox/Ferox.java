@@ -42,6 +42,9 @@ public class Ferox extends ChannelInboundHandlerAdapter {
 		if (msg instanceof TrackedHttpRequest) {
 			TrackedHttpRequest trackedRequest = (TrackedHttpRequest)msg;
 			HttpRequest request = trackedRequest.getRawRequest();
+			// so instanceof checks work correclty below
+			msg = request;
+			
 			String uri = request.getUri();
 			HttpMethod method = request.getMethod();
 			
