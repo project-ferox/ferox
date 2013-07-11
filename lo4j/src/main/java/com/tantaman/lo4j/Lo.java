@@ -44,6 +44,49 @@ public class Lo {
 		
 		return last;
 	}
+	
+	public static String asJsonObject(Object [] keyValPairs) {
+		StringBuilder result = new StringBuilder();
+		result.append("{");
+		
+		boolean first = true;
+		for (int i = 1; i < keyValPairs.length; i+=2) {
+			if (!first) result.append(","); else first = false;
+			result.append("\"" + keyValPairs[i-1] + "\":");
+			
+			if (keyValPairs[i].getClass().isPrimitive()) {
+				result.append(keyValPairs[i]);
+			} else {
+				result.append("\"" + keyValPairs[i] + "\"");
+			}
+		}
+		
+		result.append("}");
+		
+		return result.toString();
+	}
+	
+	// TODO: update webfinger to use this utility
+	public static StringBuilder asJsonObject(Map<String, ? extends Object> props, StringBuilder buf) {
+		buf.append("{");
+		
+		boolean first = true;
+		for (Map.Entry<String, ? extends Object> entry : props.entrySet()) {
+			if (!first) buf.append(","); else first = false;
+			
+			buf.append("\"").append(entry.getKey()).append("\":");
+			
+			if (entry.getValue() instanceof Map) {
+				asJsonObject((Map<String, Object>)entry.getValue(), buf);
+			} else {
+				buf.append("\"").append(entry.getValue()).append("\"");
+			}
+		}
+		
+		buf.append("}");
+		
+		return buf;
+	}
 
 	public static Map<Object, Object> createMap(Object[] objs) {
 		Map<Object, Object> result = new HashMap<>();

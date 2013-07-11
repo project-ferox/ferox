@@ -5,6 +5,9 @@ import static io.netty.handler.codec.http.HttpHeaders.Names.CONNECTION;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONTENT_LENGTH;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONTENT_TYPE;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
+
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -12,12 +15,15 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.MessageList;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.DefaultHttpHeaders;
+import io.netty.handler.codec.http.DefaultHttpResponse;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.handler.codec.http.HttpVersion;
 import io.netty.util.CharsetUtil;
 
+import com.tantaman.ferox.api.request_response.IFineGrainedResponse;
 import com.tantaman.ferox.api.request_response.IResponse;
 
 public class Response implements IResponse {
@@ -26,6 +32,7 @@ public class Response implements IResponse {
 	private boolean close = false;
 	private boolean keepAlive = false;
 	private Object userData;
+	private final FineGrainedControl fineGrained = new FineGrainedControl();
 	
 	private final HttpHeaders headers;
 
@@ -40,11 +47,9 @@ public class Response implements IResponse {
 
 	void setRequest(HttpRequest request) {
 		keepAlive = isKeepAlive(request);
-	}
-
-	@Override
-	public void add(Object msg) {
-		messageList.add(msg);
+		if (keepAlive) {
+			headers.set(CONNECTION, HttpHeaders.Values.KEEP_ALIVE);
+		}
 	}
 
 	public boolean getClose() {
@@ -64,7 +69,7 @@ public class Response implements IResponse {
 		// need to send this as full response in order
 		// to allow fancy transforms down the line
 		messageList.add(httpResponse);
-		return write();
+		return fineGrained.write();
 	}
 	
 	// Someone somewhere else down the line must finish filling out this response.
@@ -80,7 +85,7 @@ public class Response implements IResponse {
 		// need to send this as full response in order
 		// to allow fancy transforms down the line
 		messageList.add(httpResponse);
-		return write();
+		return fineGrained.write();
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -144,29 +149,64 @@ public class Response implements IResponse {
 	}
 
 	@Override
-	public ChannelFuture write() {
-		MessageList<Object> temp = messageList;
-		messageList = MessageList.newInstance();
-		ChannelFuture f = ctx.write(temp);
-
-		if (!keepAlive) {
-			close = true;
-			f.addListener(ChannelFutureListener.CLOSE);
-		}
-
-		return f;
-	}
-
-	public ChannelFuture writePartial() {
-		MessageList<Object> temp = messageList;
-		messageList = MessageList.newInstance();
-		ChannelFuture f = ctx.write(temp);
-
-		return f;
-	}
-
-	@Override
 	public HttpHeaders headers() {
 		return headers;
+	}
+	
+	@Override
+	public IFineGrainedResponse fineGrained() {
+		return fineGrained;
+	}
+	
+	private class FineGrainedControl implements IFineGrainedResponse {
+		private AtomicBoolean headersAdded = new AtomicBoolean(false);
+		
+		private void checkHeaderAddition() {
+			if (!headersAdded.compareAndSet(false, true)) {
+				throw new IllegalStateException("Headers already added");
+			}
+		}
+		
+		@Override
+		public void addResponseHeaders() {
+			addResponseHeaders(HttpResponseStatus.OK);
+		}
+
+		@Override
+		public void addResponseHeaders(HttpResponseStatus status) {
+			checkHeaderAddition();
+			DefaultHttpResponse response = new DefaultHttpResponse(HttpVersion.HTTP_1_1, status);
+			response.headers().set(headers);
+			messageList.add(response);
+		}
+
+		@Override
+		public void add(Object msg) {
+			messageList.add(msg);
+		}
+
+		// TODO: make writePartial thread safe?
+		@Override
+		public ChannelFuture write() {
+			MessageList<Object> temp = messageList;
+			messageList = MessageList.newInstance();
+			ChannelFuture f = ctx.write(temp);
+
+			if (!keepAlive) {
+				close = true;
+				f.addListener(ChannelFutureListener.CLOSE);
+			}
+
+			return f;
+		}
+
+		@Override
+		public ChannelFuture writePartial() {
+			MessageList<Object> temp = messageList;
+			messageList = MessageList.newInstance();
+			ChannelFuture f = ctx.write(temp);
+
+			return f;
+		}
 	}
 }

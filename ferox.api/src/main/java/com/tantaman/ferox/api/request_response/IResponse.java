@@ -6,11 +6,6 @@ import io.netty.handler.codec.http.HttpResponseStatus;
 
 
 public interface IResponse {
-	public void add(Object msg);
-	
-	public ChannelFuture write();
-	public ChannelFuture writePartial();
-	
 	public HttpHeaders headers();
 	
 	public ChannelFuture send(String response);	// assumes html
@@ -25,4 +20,6 @@ public interface IResponse {
 	
 	public void setUserData(Object data);
 	public <T> T getUserData();
+	
+	public IFineGrainedResponse fineGrained();
 }
