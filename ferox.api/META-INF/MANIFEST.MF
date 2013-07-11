@@ -11,6 +11,7 @@ Export-Package: com.tantaman.ferox.api;version="1.0.0";uses:="io.netty.channel,i
  com.tantaman.ferox.api.server
 Import-Package: com.tantaman.ferox.util;version="1.0.0",
  com.tantaman.lo4j;version="1.0.0",
+ io.netty.buffer;version="4.0.0.CR5-SNAPSHOT",
  io.netty.channel;version="[4.0,5)",
  io.netty.handler.codec.http;version="[4.0,5)"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
