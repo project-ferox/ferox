@@ -1,6 +1,9 @@
 package com.tantaman.ferox.util;
 
-public class Pair<FIRST_T, SECOND_T> implements IPair<FIRST_T, SECOND_T> {
+import java.io.Serializable;
+
+public class Pair<FIRST_T, SECOND_T> implements IPair<FIRST_T, SECOND_T>, Serializable {
+	private static final long serialVersionUID = 1L;
 	private final FIRST_T first;
 	private final SECOND_T second;
 	

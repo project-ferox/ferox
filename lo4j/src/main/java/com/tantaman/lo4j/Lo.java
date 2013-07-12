@@ -45,6 +45,16 @@ public class Lo {
 		return last;
 	}
 	
+	public static boolean getBool(String b) {
+		if (b == null)
+			return false;
+		try {
+			return Boolean.parseBoolean(b);
+		} catch (Exception e) {
+			return false;
+		}
+	}
+	
 	public static String asJsonObject(Object [] keyValPairs) {
 		StringBuilder result = new StringBuilder();
 		result.append("{");
