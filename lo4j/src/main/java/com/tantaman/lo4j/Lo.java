@@ -518,4 +518,14 @@ public class Lo {
 			return null;
 		}
 	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> Set<T> createSet(Object ... entries) {
+		Set<T> result = new HashSet<>();
+		for (Object o : entries) {
+			result.add((T)o);
+		}
+		
+		return result;
+	}
 }
