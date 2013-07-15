@@ -59,8 +59,10 @@ public class Invoker {
 		for (IRouteSegment seg : route) {
 			if (seg.type() == Type.CATCHALL) {
 				StringBuilder sb = new StringBuilder();
+				boolean first = true;
 				for (; i < parts.length; ++i) {
-					sb.append(parts[i] + "/");
+					if (!first) sb.append("/"); else first = false;
+					sb.append(parts[i]);
 				}
 				catchall = sb.toString();
 			} else {

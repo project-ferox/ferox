@@ -29,6 +29,14 @@ import com.tantaman.ferox.api.router.RouteHandlerAdapter;
 public class StaticHandler extends RouteHandlerAdapter {
 	private final String path;
 	private final String rootVerifier;
+	public static final MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
+	
+	static {
+		mimeTypesMap.addMimeTypes("text/html html HTML htm HTM");
+		mimeTypesMap.addMimeTypes("txt/css css CSS");
+		mimeTypesMap.addMimeTypes("text/plain txt text TXT");
+		mimeTypesMap.addMimeTypes("application/json json JSON");
+	}
 	
 	public static final String HTTP_DATE_FORMAT = "EEE, dd MMM yyyy HH:mm:ss zzz";
     public static final String HTTP_DATE_GMT_TIMEZONE = "GMT";
@@ -54,7 +62,7 @@ public class StaticHandler extends RouteHandlerAdapter {
 			IRequestChainer next) throws ParseException, IOException {
 		String path = URLDecoder.decode(content.getCatchall(), "UTF-8");
 
-        File file = new File(path);
+        File file = new File(this.path + "/" + path);
         
         if (!file.getAbsolutePath().startsWith(rootVerifier)) {
         	sendForbidden(response);
@@ -129,7 +137,7 @@ public class StaticHandler extends RouteHandlerAdapter {
     }
 	
 	private static void setContentTypeHeader(IResponse response, File file) {
-        MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
+        
         response.headers().set(HttpHeaders.Names.CONTENT_TYPE, mimeTypesMap.getContentType(file.getPath()));
     }
 	
