@@ -14,7 +14,7 @@ import com.tantaman.ferox.api.server.IFeroxServer;
 import com.tantaman.ferox.api.server.IFeroxServerBuilder;
 import com.tantaman.ferox.api.server.IFeroxServerFactories;
 import com.tantaman.ferox.api.server.IPluggableServer;
-import com.tantaman.ferox.middleware.HttpRequestConverter;
+import com.tantaman.ferox.channel_middleware.HttpRequestConverter;
 
 public class PluggableServer implements IPluggableServer {
 	private volatile IFeroxFactories feroxFactories;

@@ -1,4 +1,4 @@
-package com.tantaman.ferox.middleware;
+package com.tantaman.ferox.channel_middleware;
 
 import io.netty.channel.ChannelInboundHandlerAdapter;
 

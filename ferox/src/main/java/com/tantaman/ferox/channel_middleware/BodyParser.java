@@ -1,4 +1,4 @@
-package com.tantaman.ferox.middleware;
+package com.tantaman.ferox.channel_middleware;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -19,7 +19,7 @@ import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder.Incompatible
 import io.netty.handler.codec.http.multipart.InterfaceHttpData;
 import io.netty.handler.codec.http.multipart.InterfaceHttpData.HttpDataType;
 
-import com.tantaman.ferox.middleware.message_types.TrackedHttpRequest;
+import com.tantaman.ferox.channel_middleware.message_types.TrackedHttpRequest;
 
 public class BodyParser extends ChannelInboundHandlerAdapter {
 	private static final HttpDataFactory factory = new DefaultHttpDataFactory(262144);

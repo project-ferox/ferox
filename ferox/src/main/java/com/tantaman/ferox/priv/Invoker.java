@@ -20,7 +20,7 @@ import com.tantaman.ferox.api.router.IRouteHandler;
 import com.tantaman.ferox.api.router.IRouteHandlerFactory;
 import com.tantaman.ferox.api.router.IRouteSegment;
 import com.tantaman.ferox.api.router.IRouteSegment.Type;
-import com.tantaman.ferox.middleware.message_types.TrackedHttpRequest;
+import com.tantaman.ferox.channel_middleware.message_types.TrackedHttpRequest;
 import com.tantaman.ferox.util.IPair;
 
 public class Invoker {

@@ -11,7 +11,7 @@ import io.netty.handler.codec.http.QueryStringDecoder;
 
 import com.tantaman.ferox.api.router.IRoute;
 import com.tantaman.ferox.api.router.IRouter;
-import com.tantaman.ferox.middleware.message_types.TrackedHttpRequest;
+import com.tantaman.ferox.channel_middleware.message_types.TrackedHttpRequest;
 import com.tantaman.ferox.priv.Invoker;
 
 public class Ferox extends ChannelInboundHandlerAdapter {

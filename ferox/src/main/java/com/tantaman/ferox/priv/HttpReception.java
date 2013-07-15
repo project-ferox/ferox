@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.tantaman.ferox.api.request_response.IHttpReception;
-import com.tantaman.ferox.middleware.message_types.ITrackedHttpRequest;
+import com.tantaman.ferox.channel_middleware.message_types.ITrackedHttpRequest;
 
 public class HttpReception implements IHttpReception {
 	private final Map<String, String> urlParameters;

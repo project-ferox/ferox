@@ -1,4 +1,4 @@
-package com.tantaman.ferox.middleware.message_types;
+package com.tantaman.ferox.channel_middleware.message_types;
 
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.multipart.Attribute;
