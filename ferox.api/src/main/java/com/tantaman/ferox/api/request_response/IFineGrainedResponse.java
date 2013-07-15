@@ -10,4 +10,5 @@ public interface IFineGrainedResponse {
 	
 	public ChannelFuture write();
 	public ChannelFuture writePartial();
+	public void close();
 }

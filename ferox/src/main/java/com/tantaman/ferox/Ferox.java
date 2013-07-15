@@ -8,6 +8,8 @@ import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.LastHttpContent;
 import io.netty.handler.codec.http.QueryStringDecoder;
+import io.netty.handler.codec.http.multipart.DiskAttribute;
+import io.netty.handler.codec.http.multipart.DiskFileUpload;
 
 import com.tantaman.ferox.api.router.IRoute;
 import com.tantaman.ferox.api.router.IRouter;
@@ -17,6 +19,15 @@ import com.tantaman.ferox.priv.Invoker;
 public class Ferox extends ChannelInboundHandlerAdapter {
 	private final IRouter router;
 	private Invoker invoker;
+	
+	static {
+		DiskFileUpload.deleteOnExitTemporaryFile = true; // should delete file
+		// on exit (in normal exit)
+		DiskFileUpload.baseDirectory = "resources/temp";
+		DiskAttribute.deleteOnExitTemporaryFile = true; // should delete file on
+		// exit (in normal exit)
+		DiskAttribute.baseDirectory = "resources/temp";
+	}
 	
 	public Ferox(IRouter router) {
 		this.router = router;

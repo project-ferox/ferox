@@ -6,6 +6,9 @@ import static io.netty.handler.codec.http.HttpHeaders.Names.CONTENT_LENGTH;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONTENT_TYPE;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import io.netty.buffer.Unpooled;
@@ -18,6 +21,7 @@ import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.DefaultHttpResponse;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpHeaders;
+import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.HttpVersion;
@@ -147,6 +151,45 @@ public class Response implements IResponse {
 	public ChannelFuture send(Object response, String contentType) {
 		return sendFullObjectResponse(response, contentType, HttpResponseStatus.OK);
 	}
+	
+	@Override
+	public ChannelFuture redirect(HttpMethod get, String uri,
+			Map<String, String> queryParams) {
+		if (queryParams != null && !queryParams.isEmpty()) {
+			if (!uri.contains("?")) {
+				uri = uri + "?";
+			} else {
+				uri = uri + "&";
+			}
+			
+			StringBuilder uriBuilder = new StringBuilder(uri);
+			boolean first = true;
+			for (Map.Entry<String, String> entry : queryParams.entrySet()) {
+				if (!first) {
+					uriBuilder.append("&");
+				} else {
+					first = false;
+				}
+				
+				try {
+					uriBuilder.append(URLEncoder.encode(entry.getKey(), "UTF-8")).append("=").append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+			}
+			uri = uriBuilder.toString();
+		}
+
+		headers.set(HttpHeaders.Names.LOCATION, uri);
+		FullHttpResponse httpResponse = new DefaultFullHttpResponse(HTTP_1_1, HttpResponseStatus.FOUND);
+		
+		httpResponse.headers().set(headers);
+
+		keepAlive(httpResponse);
+
+		messageList.add(httpResponse);
+		return fineGrained.write();
+	}
 
 	@Override
 	public HttpHeaders headers() {
@@ -207,6 +250,11 @@ public class Response implements IResponse {
 			ChannelFuture f = ctx.write(temp);
 
 			return f;
+		}
+		
+		@Override
+		public void close() {
+			ctx.close();
 		}
 	}
 }

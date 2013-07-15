@@ -3,11 +3,14 @@ package com.tantaman.ferox.priv;
 import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.LastHttpContent;
+import io.netty.handler.codec.http.multipart.Attribute;
+import io.netty.handler.codec.http.multipart.FileUpload;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import com.tantaman.ferox.api.IDisposable;
 import com.tantaman.ferox.api.request_response.IHttpReception;
 import com.tantaman.ferox.channel_middleware.message_types.ITrackedHttpRequest;
 
@@ -37,6 +40,11 @@ public class HttpReception implements IHttpReception {
 		return trackedRequest.getRawRequest().getMethod();
 	}
 	
+	@Override
+	public Object getRaw() {
+		return rawContent;
+	}
+	
 	public String getUrlParam(String key) {
 		return urlParameters.get(key);
 	}
@@ -57,12 +65,27 @@ public class HttpReception implements IHttpReception {
 	}
 	
 	@Override
+	public void addDisposable(IDisposable disposable) {
+		trackedRequest.addDisposable(disposable);
+	}
+	
+	@Override
 	public void dispose() {
 		trackedRequest.dispose();
 	}
 	
 	public boolean isLast() {
 		return rawContent instanceof LastHttpContent;
+	}
+	
+	@Override
+	public Map<String, Attribute> getBody() {
+		return trackedRequest.body();
+	}
+	
+	@Override
+	public List<FileUpload> getFiles() {
+		return trackedRequest.files();
 	}
 	
 	@Override

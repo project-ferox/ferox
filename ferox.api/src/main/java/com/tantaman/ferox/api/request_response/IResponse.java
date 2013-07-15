@@ -1,7 +1,10 @@
 package com.tantaman.ferox.api.request_response;
 
+import java.util.Map;
+
 import io.netty.channel.ChannelFuture;
 import io.netty.handler.codec.http.HttpHeaders;
+import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpResponseStatus;
 
 
@@ -22,4 +25,6 @@ public interface IResponse {
 	public <T> T getUserData();
 	
 	public IFineGrainedResponse fineGrained();
+
+	public ChannelFuture redirect(HttpMethod get, String uri, Map<String, String> queryParams);
 }

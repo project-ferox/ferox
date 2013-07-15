@@ -98,7 +98,7 @@ public class Lo {
 		return buf;
 	}
 
-	public static Map<Object, Object> createMap(Object[] objs) {
+	public static Map<Object, Object> createMap(Object ... objs) {
 		Map<Object, Object> result = new HashMap<>();
 		
 		for (int i = 1; i < objs.length; i+=2) {

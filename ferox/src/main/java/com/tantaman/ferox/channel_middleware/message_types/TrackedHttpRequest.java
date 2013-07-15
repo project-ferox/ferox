@@ -5,22 +5,27 @@ import io.netty.handler.codec.http.multipart.Attribute;
 import io.netty.handler.codec.http.multipart.FileUpload;
 import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import com.tantaman.ferox.api.IDisposable;
 
 // written to by 1 thread, read by n threads.
 public class TrackedHttpRequest implements ITrackedHttpRequest {
 	private final HttpRequest raw;
 	private final List<FileUpload> files;
 	private final Map<String, Attribute> body;
+	private final List<IDisposable> disposables;
 	private HttpPostRequestDecoder decoder;
 	
 	public TrackedHttpRequest(HttpRequest rawRequest) {
 		raw = rawRequest;
 		files = new CopyOnWriteArrayList<>();
 		body = new ConcurrentHashMap<>();
+		disposables = new LinkedList<>();
 	}
 	
 	public HttpRequest getRawRequest() {
@@ -29,6 +34,11 @@ public class TrackedHttpRequest implements ITrackedHttpRequest {
 	
 	public void addAttribute(Attribute data) {
 		body.put(data.getName(), data);
+	}
+	
+	@Override
+	public void addDisposable(IDisposable disposable) {
+		disposables.add(disposable);
 	}
 	
 	// fileUpload.isInMemory();// tells if the file is in Memory
@@ -55,6 +65,9 @@ public class TrackedHttpRequest implements ITrackedHttpRequest {
 	public void dispose() {
 		if (decoder != null)
 			decoder.cleanFiles();
+		for (IDisposable disposable : disposables) {
+			disposable.dispose();
+		}
 	}
 
 	public void setDecoder(HttpPostRequestDecoder decoder) {

@@ -12,4 +12,14 @@ public class RouteMiddleware {
 			}
 		};
 	}
+	
+	public static IRouteHandlerFactory bodyParser() {
+		return new IRouteHandlerFactory() {
+			
+			@Override
+			public IRouteHandler create() {
+				return new BodyParserHandler();
+			}
+		};
+	}
 }
