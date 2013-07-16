@@ -10,6 +10,7 @@ public interface IRouterBuilder {
 	public IRouterBuilder put(String path, IRouteHandlerFactory routeHandler);
 	public IRouterBuilder post(String path, IRouteHandlerFactory routeHandler);
 	public IRouterBuilder delete(String path, IRouteHandlerFactory routeHandler);
+	public IRouterBuilder options(String route, IRouteHandlerFactory options);
 	
 	public IRouterBuilder get(String path, IRouteHandlerFactory routeHandler, int priority);
 	public IRouterBuilder put(String path, IRouteHandlerFactory routeHandler, int priority);

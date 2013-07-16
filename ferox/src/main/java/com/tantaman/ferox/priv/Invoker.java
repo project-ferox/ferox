@@ -54,6 +54,10 @@ public class Invoker {
 		catchall = extractUrlParameters(route, path);
 	}
 	
+	public void dispose() {
+		trackedRequest.dispose();
+	}
+	
 	private String extractUrlParameters(IRoute route, String path) {
 		String [] parts = path.split("/");
 		String catchall = null;

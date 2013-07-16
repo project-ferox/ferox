@@ -57,6 +57,11 @@ public class RouterBuilder implements IRouterBuilder {
 			IRouteHandlerFactory routeHandler, int priority) {
 		return add(HTTPMethods.DELETE, path, new Pair<>(priority, routeHandler));
 	}
+	
+	@Override
+	public IRouterBuilder options(String path, IRouteHandlerFactory routeHandler) {
+		return add(HTTPMethods.OPTIONS, path, new Pair<>(10, routeHandler));
+	}
 
 	@Override
 	public IRouterBuilder all(String path, IRouteHandlerFactory routeHandler,

@@ -41,7 +41,6 @@ public class Response implements IResponse {
 	public Response() {
 		messageList = MessageList.newInstance();
 		headers = new DefaultHttpHeaders();
-		headers.set(HttpHeaders.Names.ACCEPT_RANGES, "bytes");
 	}
 
 	void setContext(ChannelHandlerContext ctx) {
