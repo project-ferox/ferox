@@ -33,7 +33,7 @@ public class StaticHandler extends RouteHandlerAdapter {
 	
 	static {
 		mimeTypesMap.addMimeTypes("text/html html HTML htm HTM");
-		mimeTypesMap.addMimeTypes("txt/css css CSS");
+		mimeTypesMap.addMimeTypes("text/css css CSS");
 		mimeTypesMap.addMimeTypes("text/plain txt text TXT");
 		mimeTypesMap.addMimeTypes("application/json json JSON");
 	}

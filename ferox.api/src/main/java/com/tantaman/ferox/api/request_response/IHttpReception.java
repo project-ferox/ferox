@@ -12,12 +12,15 @@ import com.tantaman.ferox.api.IDisposable;
 
 public interface IHttpReception {
 	public String getUrlParam(String key);
-	public List<String> getQueryParam(String key);
+	public String getQueryParam(String key);
+	public String getQueryParam(String key, String defaultValue);
+	public List<String> getQueryParams(String key);
 	public List<String> getSplats();
 	public String getCatchall();
 	public HttpMethod getMethod();
 	public boolean isLast();
 	public HttpHeaders getHeaders();
+	public String getPath();
 	public String getUri();
 	public Object getRaw();
 	public List<FileUpload> getFiles();

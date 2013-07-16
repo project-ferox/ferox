@@ -21,8 +21,11 @@ public class HttpReception implements IHttpReception {
 	private final String catchall;
 	private final ITrackedHttpRequest trackedRequest;
 	private final Object rawContent;
+	private final String path;
 	
-	public HttpReception(Object raw, Map<String, String> urlParams,
+	public HttpReception(Object raw,
+						 String path,
+						 Map<String, String> urlParams,
 						 Map<String, List<String>> query,
 						 List<String> splats,
 						 String catchall,
@@ -32,6 +35,7 @@ public class HttpReception implements IHttpReception {
 		this.splats = Collections.unmodifiableList(splats);
 		this.catchall = catchall;
 		this.trackedRequest = trackedRequest;
+		this.path = path;
 		rawContent = raw;
 	}
 	
@@ -50,10 +54,22 @@ public class HttpReception implements IHttpReception {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<String> getQueryParam(String key) {
+	public List<String> getQueryParams(String key) {
 		List<String> param = querystringParameters.get(key);
 		
 		return param == null ? Collections.EMPTY_LIST : param;
+	}
+	
+	@Override
+	public String getQueryParam(String key) {
+		return getQueryParam(key, "");
+	}
+	
+	@Override
+	public String getQueryParam(String key, String defaultValue) {
+		List<String> param = querystringParameters.get(key);
+		
+		return param == null || param.isEmpty() ? defaultValue : param.get(0);
 	}
 	
 	public List<String> getSplats() {
@@ -91,6 +107,11 @@ public class HttpReception implements IHttpReception {
 	@Override
 	public String getUri() {
 		return trackedRequest.getRawRequest().getUri();
+	}
+	
+	@Override
+	public String getPath() {
+		return path;
 	}
 	
 	@Override

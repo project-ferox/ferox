@@ -41,6 +41,11 @@ public class BodyParserHandler implements IRouteHandler {
 	@Override
 	public void content(IHttpContent content, IResponse response,
 			IRequestChainer next) {
+		offer(content, response);
+		next.content(content);
+	}
+	
+	private void offer(IHttpContent content, IResponse response) {
 		HttpContent chunk = (HttpContent) content.getRaw();
 		try {
 			decoder.offer(chunk);
@@ -50,13 +55,12 @@ public class BodyParserHandler implements IRouteHandler {
 			e1.printStackTrace();
 			return;
 		}
-		
-		next.content(content);
 	}
 	
 	@Override
 	public void lastContent(IHttpContent content, IResponse response,
 			IRequestChainer next) {
+		offer(content, response);
 		Map<String, Attribute> body = content.getBody();
 		List<FileUpload> files = content.getFiles();
 		

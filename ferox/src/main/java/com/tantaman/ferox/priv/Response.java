@@ -5,12 +5,6 @@ import static io.netty.handler.codec.http.HttpHeaders.Names.CONNECTION;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONTENT_LENGTH;
 import static io.netty.handler.codec.http.HttpHeaders.Names.CONTENT_TYPE;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -21,11 +15,15 @@ import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.DefaultHttpResponse;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpHeaders;
-import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.HttpVersion;
 import io.netty.util.CharsetUtil;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.tantaman.ferox.api.request_response.IFineGrainedResponse;
 import com.tantaman.ferox.api.request_response.IResponse;
@@ -43,6 +41,7 @@ public class Response implements IResponse {
 	public Response() {
 		messageList = MessageList.newInstance();
 		headers = new DefaultHttpHeaders();
+		headers.set(HttpHeaders.Names.ACCEPT_RANGES, "bytes");
 	}
 
 	void setContext(ChannelHandlerContext ctx) {
@@ -153,9 +152,9 @@ public class Response implements IResponse {
 	}
 	
 	@Override
-	public ChannelFuture redirect(HttpMethod get, String uri,
+	public ChannelFuture redirect(String uri,
 			Map<String, String> queryParams) {
-		if (queryParams != null && !queryParams.isEmpty()) {
+		if (queryParams != null && !queryParams.isEmpty()) {			
 			if (!uri.contains("?")) {
 				uri = uri + "?";
 			} else {
@@ -164,6 +163,7 @@ public class Response implements IResponse {
 			
 			StringBuilder uriBuilder = new StringBuilder(uri);
 			boolean first = true;
+			
 			for (Map.Entry<String, String> entry : queryParams.entrySet()) {
 				if (!first) {
 					uriBuilder.append("&");

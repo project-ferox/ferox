@@ -31,6 +31,7 @@ public class Invoker {
 	private final List<String> splats;
 	private final String catchall;
 	private final Response response;
+	private final String path;
 	
 	public Invoker(IRoute route,
 				   String method,
@@ -49,6 +50,7 @@ public class Invoker {
 		urlParameters = new HashMap<String, String>();
 		splats = new ArrayList<>();
 		response = new Response();
+		this.path = path;
 		catchall = extractUrlParameters(route, path);
 	}
 	
@@ -86,17 +88,17 @@ public class Invoker {
 	public void request(HttpRequest request) {
 		response.setRequest(request);
 		new Chainer(handlers.iterator(), response).request(
-				new com.tantaman.ferox.priv.HttpRequest(urlParameters, querystringParameters, splats, catchall, trackedRequest));
+				new com.tantaman.ferox.priv.HttpRequest(path, urlParameters, querystringParameters, splats, catchall, trackedRequest));
 	}
 	
 	public void content(HttpContent content) {
 		new Chainer(handlers.iterator(), response).content(
-				new com.tantaman.ferox.priv.HttpContent(content, urlParameters, querystringParameters, splats, catchall, trackedRequest));
+				new com.tantaman.ferox.priv.HttpContent(content, path, urlParameters, querystringParameters, splats, catchall, trackedRequest));
 	}
 	
 	public void lastContent(HttpContent content) {
 		new Chainer(handlers.iterator(), response).lastContent(
-				new com.tantaman.ferox.priv.HttpContent(content, urlParameters, querystringParameters, splats, catchall, trackedRequest));
+				new com.tantaman.ferox.priv.HttpContent(content, path, urlParameters, querystringParameters, splats, catchall, trackedRequest));
 	}
 	
 	private static class Chainer implements IRequestChainer {

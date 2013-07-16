@@ -26,5 +26,5 @@ public interface IResponse {
 	
 	public IFineGrainedResponse fineGrained();
 
-	public ChannelFuture redirect(HttpMethod get, String uri, Map<String, String> queryParams);
+	public ChannelFuture redirect(String uri, Map<String, String> queryParams);
 }

@@ -7,11 +7,12 @@ import com.tantaman.ferox.api.request_response.IHttpRequest;
 import com.tantaman.ferox.channel_middleware.message_types.TrackedHttpRequest;
 
 public class HttpRequest extends HttpReception implements IHttpRequest {
-	public HttpRequest(Map<String, String> urlParams,
+	public HttpRequest(String path,
+			Map<String, String> urlParams,
 			Map<String, List<String>> query,
 			List<String> splats,
 			String catchall,
 			TrackedHttpRequest trackedRequest) {
-		super(trackedRequest.getRawRequest(), urlParams, query, splats, catchall, trackedRequest);
+		super(trackedRequest.getRawRequest(), path, urlParams, query, splats, catchall, trackedRequest);
 	}
 }

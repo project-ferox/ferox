@@ -3,7 +3,6 @@ package com.tantaman.ferox.channel_middleware;
 import io.netty.channel.ChannelHandler;
 
 import com.tantaman.ferox.api.IChannelHandlerFactory;
-import com.tantaman.ferox.route_middelware.StaticHandler;
 
 public class ChannelMiddleware {
 	public static final IChannelHandlerFactory BODY_PARSER = new IChannelHandlerFactory() {
