@@ -55,7 +55,7 @@ public class Lo {
 		}
 	}
 	
-	public static String asJsonObject(Object [] keyValPairs) {
+	public static String asJsonObject(Object ... keyValPairs) {
 		StringBuilder result = new StringBuilder();
 		result.append("{");
 		
