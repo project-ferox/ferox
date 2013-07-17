@@ -105,6 +105,10 @@ public class Invoker {
 				new com.tantaman.ferox.priv.HttpContent(content, path, urlParameters, querystringParameters, splats, catchall, trackedRequest));
 	}
 	
+	public void exceptionCaught(Throwable cause) {
+		new Chainer(handlers.iterator(), response).exceptionCaught(cause);
+	}
+	
 	private static class Chainer implements IRequestChainer {
 		private final Iterator<IRouteHandler> handlers;
 		private final IResponse response;
@@ -132,6 +136,13 @@ public class Invoker {
 		public void lastContent(IHttpContent content) {
 			if (handlers.hasNext()) {
 				handlers.next().lastContent(content, this.response, this);
+			}
+		}
+		
+		@Override
+		public void exceptionCaught(Throwable cause) {
+			if (handlers.hasNext()) {
+				handlers.next().exceptionCaught(cause, this.response, this);
 			}
 		}
 	}

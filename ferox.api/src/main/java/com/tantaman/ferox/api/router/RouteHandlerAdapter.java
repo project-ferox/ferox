@@ -24,4 +24,10 @@ public class RouteHandlerAdapter implements IRouteHandler {
 	public void lastContent(IHttpContent content, IResponse response, IRequestChainer next) {
 		next.lastContent(content);
 	}
+	
+	@Override
+	public void exceptionCaught(Throwable cause, IResponse response,
+			IRequestChainer next) {
+		next.exceptionCaught(cause);
+	}
 }

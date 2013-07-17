@@ -89,7 +89,7 @@ public class Ferox extends ChannelInboundHandlerAdapter {
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)
 			throws Exception {
-		cause.printStackTrace();
+		invoker.exceptionCaught(cause);
 		invoker.dispose();
 		ctx.close();
 	}

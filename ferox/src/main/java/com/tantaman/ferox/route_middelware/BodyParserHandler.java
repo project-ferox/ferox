@@ -58,6 +58,13 @@ public class BodyParserHandler implements IRouteHandler {
 	}
 	
 	@Override
+	public void exceptionCaught(Throwable cause, IResponse response,
+			IRequestChainer next) {
+		decoder.cleanFiles();
+		response.fineGrained().close();
+	}
+	
+	@Override
 	public void lastContent(IHttpContent content, IResponse response,
 			IRequestChainer next) {
 		offer(content, response);
