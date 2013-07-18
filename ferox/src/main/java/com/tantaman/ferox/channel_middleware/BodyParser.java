@@ -2,7 +2,6 @@ package com.tantaman.ferox.channel_middleware;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.MessageList;
 import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.LastHttpContent;
@@ -43,51 +42,49 @@ public class BodyParser extends ChannelInboundHandlerAdapter {
 	}
 
 	@Override
-	public void messageReceived(ChannelHandlerContext ctx, MessageList<Object> msgs) throws Exception {
+	public void channelRead(ChannelHandlerContext ctx, Object msg)
+			throws Exception {
 		try {
-			for (int i = 0; i < msgs.size(); i++) {
-				Object msg = msgs.get(i);
-				if (msg instanceof TrackedHttpRequest) {
-					trackedRequest = (TrackedHttpRequest)msg;
-					HttpRequest request = trackedRequest.getRawRequest();
-					// reset msg for correct instanceof check and processing later.
-					// FullHttpRequest would come in as a TrackedHttpRequest.
-					msg = request;
+			if (msg instanceof TrackedHttpRequest) {
+				trackedRequest = (TrackedHttpRequest)msg;
+				HttpRequest request = trackedRequest.getRawRequest();
+				// reset msg for correct instanceof check and processing later.
+				// FullHttpRequest would come in as a TrackedHttpRequest.
+				msg = request;
 
+				try {
+					decoder = new HttpPostRequestDecoder(factory, request);
+					trackedRequest.setDecoder(decoder);
+				} catch (ErrorDataDecoderException e1) {
+					e1.printStackTrace();
+					ctx.channel().close();
+					return;
+				} catch (IncompatibleDataDecoderException e1) {
+					return;
+				}
+			}
+
+			if (decoder != null) {
+				if (msg instanceof HttpContent) {
+					// New chunk is received
+					HttpContent chunk = (HttpContent) msg;
 					try {
-						decoder = new HttpPostRequestDecoder(factory, request);
-						trackedRequest.setDecoder(decoder);
+						decoder.offer(chunk);
 					} catch (ErrorDataDecoderException e1) {
 						e1.printStackTrace();
 						ctx.channel().close();
 						return;
-					} catch (IncompatibleDataDecoderException e1) {
-						return;
 					}
-				}
 
-				if (decoder != null) {
-					if (msg instanceof HttpContent) {
-						// New chunk is received
-						HttpContent chunk = (HttpContent) msg;
-						try {
-							decoder.offer(chunk);
-						} catch (ErrorDataDecoderException e1) {
-							e1.printStackTrace();
-							ctx.channel().close();
-							return;
-						}
+					readHttpDataChunkByChunk();
 
-						readHttpDataChunkByChunk();
-
-						if (chunk instanceof LastHttpContent) {
-							reset();
-						}
+					if (chunk instanceof LastHttpContent) {
+						reset();
 					}
 				}
 			}
 		} finally {
-			ctx.fireMessageReceived(msgs);
+			ctx.fireChannelRead(msg);
 		}
 	}
 

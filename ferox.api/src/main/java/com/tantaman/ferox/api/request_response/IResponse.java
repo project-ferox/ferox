@@ -1,14 +1,16 @@
 package com.tantaman.ferox.api.request_response;
 
-import java.util.Map;
-
 import io.netty.channel.ChannelFuture;
 import io.netty.handler.codec.http.HttpHeaders;
-import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import io.netty.util.concurrent.EventExecutor;
+
+import java.util.Map;
 
 
 public interface IResponse {
+	public EventExecutor executor();
+	
 	public HttpHeaders headers();
 	
 	public ChannelFuture send(String response);	// assumes html

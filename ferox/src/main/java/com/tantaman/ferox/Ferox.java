@@ -2,7 +2,6 @@ package com.tantaman.ferox;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.MessageList;
 import io.netty.handler.codec.http.HttpContent;
 import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpRequest;
@@ -34,22 +33,7 @@ public class Ferox extends ChannelInboundHandlerAdapter {
 	}
 	
 	@Override
-    public void messageReceived(ChannelHandlerContext ctx, MessageList<Object> msgs) throws Exception {
-        int size = msgs.size();
-        try {
-            for (int i = 0; i < size; i ++) {
-            	messageReceived(ctx, msgs.get(i));
-            	
-                if (invoker != null && invoker.getClose()) {
-                    break;
-                }
-            }
-        } finally {
-            msgs.releaseAllAndRecycle();
-        }
-    }
-	
-	private void messageReceived(ChannelHandlerContext ctx, Object msg) {
+	public void channelRead(ChannelHandlerContext ctx, Object msg) {
 		if (msg instanceof TrackedHttpRequest) {
 			invoker = null;
 			TrackedHttpRequest trackedRequest = (TrackedHttpRequest)msg;

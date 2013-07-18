@@ -14,5 +14,6 @@ Import-Package: com.tantaman.ferox.util,
  io.netty.buffer;version="[4.0,5)",
  io.netty.channel;version="[4.0,5)",
  io.netty.handler.codec.http;version="[4.0,5)",
- io.netty.handler.codec.http.multipart;version="4.0.0.CR5-SNAPSHOT"
+ io.netty.handler.codec.http.multipart;version="4.0.0.CR5-SNAPSHOT",
+ io.netty.util.concurrent;version="4.0.2.Final"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7

@@ -9,7 +9,6 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.MessageList;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
 import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.DefaultHttpResponse;
@@ -19,9 +18,12 @@ import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.HttpVersion;
 import io.netty.util.CharsetUtil;
+import io.netty.util.concurrent.EventExecutor;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -29,7 +31,7 @@ import com.tantaman.ferox.api.request_response.IFineGrainedResponse;
 import com.tantaman.ferox.api.request_response.IResponse;
 
 public class Response implements IResponse {
-	private MessageList<Object> messageList;
+	private List<Object> messageList;
 	private ChannelHandlerContext ctx;
 	private boolean close = false;
 	private boolean keepAlive = false;
@@ -39,7 +41,7 @@ public class Response implements IResponse {
 	private final HttpHeaders headers;
 
 	public Response() {
-		messageList = MessageList.newInstance();
+		messageList = new LinkedList<>();
 		headers = new DefaultHttpHeaders();
 	}
 
@@ -58,6 +60,11 @@ public class Response implements IResponse {
 		return close;
 	}
 
+	@Override
+	public EventExecutor executor() {
+		return ctx.executor();
+	}
+	
 	private ChannelFuture sendFullStringResponse(String response, String contentType, HttpResponseStatus status) {
 		FullHttpResponse httpResponse = new DefaultFullHttpResponse(HTTP_1_1, status,
 				Unpooled.copiedBuffer(response, CharsetUtil.UTF_8));
@@ -230,25 +237,37 @@ public class Response implements IResponse {
 		// TODO: make writePartial thread safe?
 		@Override
 		public ChannelFuture write() {
-			MessageList<Object> temp = messageList;
-			messageList = MessageList.newInstance();
-			ChannelFuture f = ctx.write(temp);
+			List<Object> temp = messageList;
+			messageList = new LinkedList<>();
+			
+			ChannelFuture lastWrite = null;
+			for (Object msg : temp) {
+				lastWrite = ctx.write(msg);
+			}
+			
+			ctx.flush();
 
 			if (!keepAlive) {
 				close = true;
-				f.addListener(ChannelFutureListener.CLOSE);
+				lastWrite.addListener(ChannelFutureListener.CLOSE);
 			}
 
-			return f;
+			return lastWrite;
 		}
 
 		@Override
 		public ChannelFuture writePartial() {
-			MessageList<Object> temp = messageList;
-			messageList = MessageList.newInstance();
-			ChannelFuture f = ctx.write(temp);
+			List<Object> temp = messageList;
+			messageList = new LinkedList<>();
+			
+			ChannelFuture lastWrite = null;
+			for (Object msg : temp) {
+				lastWrite = ctx.write(msg);
+			}
 
-			return f;
+			ctx.flush();
+
+			return lastWrite;
 		}
 		
 		@Override
