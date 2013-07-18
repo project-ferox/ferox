@@ -2,25 +2,25 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: ferox
 Bundle-SymbolicName: com.tantaman.ferox
-Bundle-Version: 1.0.0
+Bundle-Version: 0.0.1.qualifier
 Export-Package: com.tantaman.ferox;version="1.0.0";uses:="com.tantaman.ferox.api,io.netty.channel",
  com.tantaman.ferox.channel_middleware,
  com.tantaman.ferox.channel_middleware.message_types,
  com.tantaman.ferox.route_middelware
-Import-Package: com.tantaman.ferox.api;version="[1.0,2)",
+Import-Package: com.tantaman.ferox.api;version="[0.0,1.0)",
  com.tantaman.ferox.api.pluggable,
  com.tantaman.ferox.api.request_response,
  com.tantaman.ferox.api.router,
  com.tantaman.ferox.api.router.pluggable,
  com.tantaman.ferox.channel_middleware.message_types,
- com.tantaman.ferox.util;version="[1.0,2)",
- com.tantaman.lo4j;version="[1.0,2)",
+ com.tantaman.ferox.util,
+ com.tantaman.lo4j,
  io.netty.buffer;version="[4.0,5)",
  io.netty.channel;version="[4.0,5)",
  io.netty.handler.codec;version="[4.0,5)",
  io.netty.handler.codec.http;version="[4.0,5)",
  io.netty.handler.codec.http.multipart;version="[4.0,5)",
- io.netty.handler.stream;version="4.0.0.CR5-SNAPSHOT",
+ io.netty.handler.stream;version="[4.0,5)",
  io.netty.util;version="[4.0,5)",
  io.netty.util.concurrent;version="[4.0,5)",
  javax.activation

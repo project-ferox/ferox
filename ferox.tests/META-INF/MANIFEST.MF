@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Tests
 Bundle-SymbolicName: ferox.tests
 Bundle-Version: 1.0.0.qualifier
-Fragment-Host: com.tantaman.ferox;bundle-version="1.0.0"
+Fragment-Host: com.tantaman.ferox
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.junit,
  com.tantaman.ferox.api
