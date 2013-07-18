@@ -77,6 +77,7 @@ public class Lo {
 	}
 	
 	// TODO: update webfinger to use this utility
+	@SuppressWarnings("unchecked")
 	public static StringBuilder asJsonObject(Map<String, ? extends Object> props, StringBuilder buf) {
 		buf.append("{");
 		
