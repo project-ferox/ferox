@@ -22,7 +22,8 @@ Import-Package: com.tantaman.ferox.api;version="[1.0,2)",
  io.netty.handler.codec.http.multipart;version="[4.0,5)",
  io.netty.handler.stream;version="4.0.0.CR5-SNAPSHOT",
  io.netty.util;version="[4.0,5)",
- io.netty.util.concurrent;version="[4.0,5)"
+ io.netty.util.concurrent;version="[4.0,5)",
+ javax.activation
 Service-Component: OSGI-INF/*
 Tool: Bnd-2.1.0.20130426-122213
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
