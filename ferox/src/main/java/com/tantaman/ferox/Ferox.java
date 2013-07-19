@@ -76,5 +76,6 @@ public class Ferox extends ChannelInboundHandlerAdapter {
 		invoker.exceptionCaught(cause);
 		invoker.dispose();
 		ctx.close();
+		cause.printStackTrace();
 	}
 }
