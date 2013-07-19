@@ -64,7 +64,7 @@ public class Lo {
 			if (!first) result.append(","); else first = false;
 			result.append("\"" + keyValPairs[i-1] + "\":");
 			
-			if (keyValPairs[i].getClass().isPrimitive()) {
+			if (keyValPairs[i].getClass().isPrimitive() || keyValPairs[i] instanceof Number) {
 				result.append(keyValPairs[i]);
 			} else {
 				result.append("\"" + keyValPairs[i] + "\"");
@@ -90,7 +90,11 @@ public class Lo {
 			if (entry.getValue() instanceof Map) {
 				asJsonObject((Map<String, Object>)entry.getValue(), buf);
 			} else {
-				buf.append("\"").append(entry.getValue()).append("\"");
+				if (entry.getValue().getClass().isPrimitive() || entry.getValue() instanceof Number) {
+					buf.append(entry.getValue());
+				} else {
+					buf.append("\"").append(entry.getValue()).append("\"");
+				}
 			}
 		}
 		
