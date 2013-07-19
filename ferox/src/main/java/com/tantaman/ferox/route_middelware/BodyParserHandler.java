@@ -60,6 +60,7 @@ public class BodyParserHandler implements IRouteHandler {
 	@Override
 	public void exceptionCaught(Throwable cause, IResponse response,
 			IRequestChainer next) {
+		cause.printStackTrace();
 		decoder.cleanFiles();
 		response.fineGrained().close();
 	}

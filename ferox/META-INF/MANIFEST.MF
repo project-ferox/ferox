@@ -23,7 +23,8 @@ Import-Package: com.tantaman.ferox.api;version="[0.0,1.0)",
  io.netty.handler.stream;version="[4.0,5)",
  io.netty.util;version="[4.0,5)",
  io.netty.util.concurrent;version="[4.0,5)",
- javax.activation
+ javax.activation,
+ org.slf4j;provider=paxlogging
 Service-Component: OSGI-INF/*
 Tool: Bnd-2.1.0.20130426-122213
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
