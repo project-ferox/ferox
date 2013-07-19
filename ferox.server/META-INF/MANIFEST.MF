@@ -21,6 +21,7 @@ Import-Package: com.tantaman.ferox.api;version="[0.0,1.0)",
  io.netty.handler.ssl;version="[4.0,5)",
  io.netty.handler.stream;version="[4.0,5)",
  io.netty.util.concurrent;version="[4.0,5)",
- org.slf4j;provider=paxlogging
+ org.slf4j;provider=paxlogging,
+ javax.net.ssl
 Service-Component: OSGI-INF/*
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7

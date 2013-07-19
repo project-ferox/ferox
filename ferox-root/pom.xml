@@ -11,7 +11,6 @@
 		<module>../ferox.server</module>
 		<module>../ferox.util</module>
 		<module>../lo4j</module>
-		<module>../ferox.feature</module>
 	</modules>
 
 	<properties>
@@ -85,19 +84,6 @@
 				<version>${tycho-version}</version>
 				<configuration>
 					<pomDependencies>consider</pomDependencies>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>com.atlassian.maven.plugins</groupId>
-				<artifactId>maven-upload-plugin</artifactId>
-				<version>1.1</version>
-				<configuration>
-					<resourceSrc>
-						${project.build.directory}/${project.build.finalName}.${project.packaging}
-					</resourceSrc>
-					<resourceDest>${target.deployDir}</resourceDest>
-					<serverId>${target.host}</serverId>
-					<url>${target.deployUrl}</url>
 				</configuration>
 			</plugin>
 		</plugins>
