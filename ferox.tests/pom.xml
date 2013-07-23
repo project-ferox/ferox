@@ -4,8 +4,8 @@
   <packaging>eclipse-test-plugin</packaging>
   <parent>
   	<groupId>com.tantaman</groupId>
-  	<artifactId>ferox-test-parent</artifactId>
+  	<artifactId>ferox-root</artifactId>
   	<version>0.0.1-SNAPSHOT</version>
-  	<relativePath>../ferox-test-parent</relativePath>
+  	<relativePath>../ferox-root</relativePath>
   </parent>
 </project>

@@ -5,17 +5,33 @@
 	<artifactId>ferox-root</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
+
+	<prerequisites>
+		<maven>3.0</maven>
+	</prerequisites>
+
 	<modules>
 		<module>../ferox</module>
 		<module>../ferox.api</module>
 		<module>../ferox.server</module>
 		<module>../ferox.util</module>
 		<module>../lo4j</module>
+		<module>../ferox.tests</module>
 	</modules>
 
 	<properties>
 		<tycho-version>0.17.0</tycho-version>
 	</properties>
+
+	<repositories>
+		<repository>
+			<id>indigo</id>
+			<layout>p2</layout>
+			<url>http://download.eclipse.org/releases/indigo</url>
+			<!-- file URL for faster and offline builds -->
+			<!-- <url>file:/${basedir}/../../helios-rcp/</url> -->
+		</repository>
+	</repositories>
 
 	<dependencies>
 		<dependency>
