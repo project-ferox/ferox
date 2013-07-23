@@ -17,9 +17,10 @@ import com.tantaman.ferox.api.server.IPluggableServer;
 import com.tantaman.ferox.channel_middleware.HttpRequestConverter;
 
 public class PluggableServer implements IPluggableServer {
-	private volatile IFeroxFactories feroxFactories;
-	private volatile IFeroxServerFactories serverFactories;
+	private IFeroxFactories feroxFactories;
+	private IFeroxServerFactories serverFactories;
 	private IFeroxServerBuilder serverBuilder;
+	private volatile IFeroxServer server;
 	
 	protected void setFeroxFactories(IFeroxFactories feroxFactories) {
 		this.feroxFactories = feroxFactories;
@@ -73,9 +74,14 @@ public class PluggableServer implements IPluggableServer {
 		IPluggableRouterBuilder pluggableRouterBuilder = feroxFactories.createPluggableRouterBuilder(null);
 		serverBuilder.use("ferox", feroxFactories.createPluggableFeroxChannelHandlerFactory(pluggableRouterBuilder));
 		
-		IFeroxServer server = serverBuilder.build();
+		server = serverBuilder.build();
 		Thread t = new Thread(server);
 		t.setContextClassLoader(this.getClass().getClassLoader());
 		t.start();
+	}
+	
+	@Override
+	public void shutdown() {
+		server.shutdown();
 	}
 }

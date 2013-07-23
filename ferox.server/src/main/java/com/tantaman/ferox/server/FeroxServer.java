@@ -13,6 +13,7 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 public class FeroxServer implements IFeroxServer {
 	private final int port;
 	private final ChannelInitializer<SocketChannel> channelInitializer;
+	private volatile Channel channel;
 
 	FeroxServer(int port, ChannelInitializer<SocketChannel> channelInitializer) {
 		this.port = port;
@@ -37,11 +38,16 @@ public class FeroxServer implements IFeroxServer {
 			.channel(NioServerSocketChannel.class)
 			.childHandler(channelInitializer);
 
-			Channel ch = b.bind(port).sync().channel();
-			ch.closeFuture().sync();
+			channel = b.bind(port).sync().channel();
+			channel.closeFuture().sync();
 		} finally {
 			bossGroup.shutdownGracefully();
 			workerGroup.shutdownGracefully();
 		}
+	}
+	
+	@Override
+	public void shutdown() {
+		channel.close();
 	}
 }
