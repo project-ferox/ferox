@@ -13,6 +13,11 @@ import com.tantaman.ferox.api.router.IRouteHandlerFactory;
 import com.tantaman.ferox.api.router.IRouteSegment;
 import com.tantaman.ferox.util.IPair;
 
+/**
+ * A route is a list of segments (standard, splat (*), catchall (**), regex, wild (:var))
+ * @author tantaman
+ *
+ */
 public class Route implements Iterable<IRouteSegment>, IRoute {
 	private final List<IRouteSegment> segments;
 	private final List<IPair<Integer, IRouteHandlerFactory>> handlers;

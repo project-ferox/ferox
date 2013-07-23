@@ -20,7 +20,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class Lo {
-	private static final ScheduledExecutorService SCHEDULED_EXEC = Executors.newScheduledThreadPool(1);
+	private static final ScheduledExecutorService SCHEDULED_EXEC = Executors.newScheduledThreadPool(1, new NamedThreadFactory("Lo debounce"));
 	
 	public static <T> T first(Collection<T> c) {
 		return c.iterator().next();

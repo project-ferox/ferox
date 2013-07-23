@@ -15,6 +15,16 @@ import com.tantaman.ferox.api.router.IRouter;
 import com.tantaman.ferox.channel_middleware.message_types.TrackedHttpRequest;
 import com.tantaman.ferox.priv.Invoker;
 
+/**
+ * Main entry point for requests made to Ferox.
+ * 
+ * {@link Ferox} receives an HTTP request,
+ * determine what route it belongs to
+ * and sends the request and subsequent content to that route's handlers.
+ * 
+ * @author tantaman
+ *
+ */
 public class Ferox extends ChannelInboundHandlerAdapter {
 	private final IRouter router;
 	private Invoker invoker;

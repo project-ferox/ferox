@@ -19,7 +19,22 @@ import io.netty.handler.codec.http.multipart.InterfaceHttpData;
 import io.netty.handler.codec.http.multipart.InterfaceHttpData.HttpDataType;
 
 import com.tantaman.ferox.channel_middleware.message_types.TrackedHttpRequest;
+import com.tantaman.ferox.route_middelware.BodyParserHandler;
 
+/**
+ * Parses PUT and POST requests.  This will
+ * parse all PUT and POST requests on the channel, regardless of what
+ * route they are arriving on.
+ * 
+ * {@link BodyParserHandler} can be attached at the route level
+ * to only parse form fields for specific routes.
+ * 
+ * The {@link HttpRequestConverter} needs to be added to the pipeline before
+ * {@link BodyParser}.
+ * 
+ * @author tantaman
+ *
+ */
 public class BodyParser extends ChannelInboundHandlerAdapter {
 	private static final HttpDataFactory factory = new DefaultHttpDataFactory(262144);
 	private HttpPostRequestDecoder decoder;

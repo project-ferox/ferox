@@ -5,6 +5,11 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Matches a regular expression.
+ * @author tantaman
+ *
+ */
 public class RegexSegment extends RouteSegment {
 	private final Pattern reg;
 	private final String name;

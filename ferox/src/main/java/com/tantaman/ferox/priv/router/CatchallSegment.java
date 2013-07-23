@@ -1,5 +1,10 @@
 package com.tantaman.ferox.priv.router;
 
+/**
+ * Matches the catchall pattern.
+ * @author tantaman
+ *
+ */
 public class CatchallSegment extends RouteSegment {
 
 	public CatchallSegment(boolean leaf, Route owner) {

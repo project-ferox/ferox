@@ -30,6 +30,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import com.tantaman.ferox.api.request_response.IFineGrainedResponse;
 import com.tantaman.ferox.api.request_response.IResponse;
 
+/**
+ * Various convience methods for constructing and sending an HTTP response.
+ * @author tantaman
+ *
+ */
 public class Response implements IResponse {
 	private List<Object> messageList;
 	private ChannelHandlerContext ctx;

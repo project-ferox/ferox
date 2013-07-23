@@ -23,6 +23,13 @@ import com.tantaman.ferox.api.router.IRouteSegment.Type;
 import com.tantaman.ferox.channel_middleware.message_types.TrackedHttpRequest;
 import com.tantaman.ferox.util.IPair;
 
+/**
+ * Extracts the relevant parameters from a request and invokes the {@link IRouteHandler}s
+ * for a given route.
+ * 
+ * @author tantaman
+ *
+ */
 public class Invoker {
 	private final List<IRouteHandler> handlers;
 	private final TrackedHttpRequest trackedRequest;

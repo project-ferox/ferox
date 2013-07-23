@@ -12,6 +12,17 @@ import com.tantaman.ferox.api.router.pluggable.IPluggableRouterBuilderFactory;
 import com.tantaman.ferox.util.Pair;
 import com.tantaman.lo4j.Lo.Fn;
 
+/**
+ * Provides a way to construct {@link IPluggableRouterBuilder}s and
+ * notify them of when {@link IRouteInitializer}s come online or go offline.
+ * 
+ * This factory keeps weak references to all {@link IPluggableRouterBuilder}s it has
+ * constructed and notifies them whenever a change in the available
+ * {@link IRouteInitializer}s occurs.
+ * 
+ * @author tantaman
+ *
+ */
 public class PluggableRouterBuilderFactory implements IPluggableRouterBuilderFactory {
 	private final List<Pair<Fn<Boolean, IRouteInitializer>, WeakReference<IPluggableRouterBuilder>>> builders
 	= new CopyOnWriteArrayList<>();

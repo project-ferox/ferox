@@ -11,15 +11,36 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.tantaman.ferox.RouterBuilder;
 import com.tantaman.ferox.api.router.IRouteInitializer;
 import com.tantaman.ferox.api.router.IRouter;
 import com.tantaman.ferox.api.router.IRouterBuilder;
 import com.tantaman.ferox.api.router.pluggable.IPluggableRouterBuilder;
 import com.tantaman.lo4j.Lo;
+import com.tantaman.lo4j.NamedThreadFactory;
 
+/**
+ * The {@link PluggableRouterBuilder} listens for service events (via OSGi declarative services)
+ * relating to {@link IRouteInitializer}s.
+ * 
+ * Whenever a {@link IRouteInitializer} comes online, or goes offline, the routing table is rebuilt.
+ * 
+ * Subsequent connections by a user to the Ferox server will use the new routes while
+ * currently established connections will continue to use the old routes.
+ * 
+ * Instances of the {@link PluggableRouterBuilder} are managed by the {@link PluggableRouterBuilderFactory}.
+ * The {@link PluggableRouterBuilderFactory} is the class that listens for the actual service events
+ * and forwards them on to any instances of the {@link PluggableRouterBuilder} that it may be managing.
+ * 
+ * @author tantaman
+ *
+ */
 public class PluggableRouterBuilder implements IPluggableRouterBuilder {
-	private static final ScheduledExecutorService builderThread = Executors.newScheduledThreadPool(1);
+	private static final Logger log = LoggerFactory.getLogger(PluggableRouterBuilder.class);
+	private static final ScheduledExecutorService builderThread = Executors.newScheduledThreadPool(1, new NamedThreadFactory("PluggableRouterBuilder"));
 	
 	private IRouterBuilder routerBuilder;
 	private final Set<Listener> listeners = new CopyOnWriteArraySet<>();
@@ -38,7 +59,7 @@ public class PluggableRouterBuilder implements IPluggableRouterBuilder {
 		}
 	};
 	
-	public PluggableRouterBuilder() {
+	PluggableRouterBuilder() {
 		routeInitializers = new HashSet<>();
 	}
 	
@@ -57,6 +78,7 @@ public class PluggableRouterBuilder implements IPluggableRouterBuilder {
 	}
 	
 	public void removeRouteInitializer(final IRouteInitializer routeInitializer) {
+		log.debug("Removed route initializer");
 		builderThread.execute(new Runnable() {
 			@Override
 			public void run() {

@@ -13,13 +13,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.tantaman.ferox.api.IDisposable;
 
-// written to by 1 thread, read by n threads.
 public class TrackedHttpRequest implements ITrackedHttpRequest {
 	private final HttpRequest raw;
 	private final List<FileUpload> files;
 	private final Map<String, Attribute> body;
 	private final List<IDisposable> disposables;
-	private HttpPostRequestDecoder decoder;
+	private volatile HttpPostRequestDecoder decoder;
 	
 	public TrackedHttpRequest(HttpRequest rawRequest) {
 		raw = rawRequest;

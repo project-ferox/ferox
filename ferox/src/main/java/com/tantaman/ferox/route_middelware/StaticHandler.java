@@ -24,8 +24,14 @@ import javax.activation.MimetypesFileTypeMap;
 import com.tantaman.ferox.api.request_response.IHttpContent;
 import com.tantaman.ferox.api.request_response.IRequestChainer;
 import com.tantaman.ferox.api.request_response.IResponse;
+import com.tantaman.ferox.api.router.IRouteHandler;
 import com.tantaman.ferox.api.router.RouteHandlerAdapter;
 
+/**
+ * A {@link IRouteHandler} that serves the content of a specified file path.
+ * @author tantaman
+ *
+ */
 public class StaticHandler extends RouteHandlerAdapter {
 	private final String path;
 	private final String rootVerifier;
@@ -64,6 +70,7 @@ public class StaticHandler extends RouteHandlerAdapter {
 
         File file = new File(this.path + "/" + path);
         
+        // TODO: this is technically blocking?  Can we resolve this somehow?
         if (!file.getAbsolutePath().startsWith(rootVerifier)) {
         	sendForbidden(response);
         	return;
