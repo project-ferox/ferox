@@ -5,7 +5,12 @@ import com.tantaman.ferox.api.request_response.IHttpRequest;
 import com.tantaman.ferox.api.request_response.IRequestChainer;
 import com.tantaman.ferox.api.request_response.IResponse;
 
-
+/**
+ * Usually you'll only need to implement <code>lastContent</code>.  The
+ * {@link RouteHandlerAdapter} is provided as a convenience for these cases.
+ * @author tantaman
+ *
+ */
 public class RouteHandlerAdapter implements IRouteHandler {
 
 	@Override
