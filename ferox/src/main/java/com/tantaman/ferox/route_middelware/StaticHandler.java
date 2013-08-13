@@ -5,8 +5,11 @@ import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.netty.handler.codec.http.LastHttpContent;
 import io.netty.handler.stream.ChunkedFile;
+import io.netty.handler.stream.ChunkedNioFile;
+import io.netty.handler.stream.ChunkedStream;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -104,15 +107,15 @@ public class StaticHandler extends RouteHandlerAdapter {
             }
         }
 
-        RandomAccessFile raf;
-        try {
-            raf = new RandomAccessFile(file, "r");
-        } catch (FileNotFoundException fnfe) {
-            sendNotFound(response);
-            return;
-        }
+//        RandomAccessFile raf;
+//        try {
+//            raf = new RandomAccessFile(file, "r");
+//        } catch (FileNotFoundException fnfe) {
+//            sendNotFound(response);
+//            return;
+//        }
         
-        long fileLength = raf.length();
+        long fileLength = file.length();
 
         response.headers().set(HttpHeaders.Names.CONTENT_LENGTH, fileLength);
         response.headers().set(HttpHeaders.Names.CONTENT_TYPE, "");
@@ -121,7 +124,8 @@ public class StaticHandler extends RouteHandlerAdapter {
 
     
         response.fineGrained().addResponseHeaders();
-        response.fineGrained().add(new ChunkedFile(raf, 0, fileLength, 8192));
+        response.fineGrained().add(new ChunkedNioFile(file, 8192));
+//        response.fineGrained().add(new ChunkedFile(raf, 0, fileLength, 8192));
         response.fineGrained().add(LastHttpContent.EMPTY_LAST_CONTENT);
 
         response.fineGrained().write();
