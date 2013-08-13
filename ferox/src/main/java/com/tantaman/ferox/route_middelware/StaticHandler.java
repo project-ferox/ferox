@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
+import java.util.regex.Pattern;
 
 import javax.activation.MimetypesFileTypeMap;
 
@@ -36,6 +37,7 @@ public class StaticHandler extends RouteHandlerAdapter {
 	private final String path;
 	private final String rootVerifier;
 	public static final MimetypesFileTypeMap mimeTypesMap = new MimetypesFileTypeMap();
+	private static final Pattern INSECURE_URI = Pattern.compile(".*[<>&\"].*");
 	
 	static {
 		mimeTypesMap.addMimeTypes("text/html html HTML htm HTM");
