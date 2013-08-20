@@ -1,11 +1,13 @@
 package com.tantaman.ferox.channel_middleware.message_types;
 
+import io.netty.handler.codec.http.Cookie;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.multipart.Attribute;
 import io.netty.handler.codec.http.multipart.FileUpload;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.tantaman.ferox.api.IDisposable;
 import com.tantaman.ferox.api.router.IRouteHandler;
@@ -34,4 +36,5 @@ public interface ITrackedHttpRequest {
 	public List<FileUpload> files();
 	public void addDisposable(IDisposable disposable);
 	public void dispose();
+	public Set<Cookie> getCookies();
 }

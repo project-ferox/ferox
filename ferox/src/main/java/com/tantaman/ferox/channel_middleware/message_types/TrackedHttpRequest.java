@@ -1,5 +1,6 @@
 package com.tantaman.ferox.channel_middleware.message_types;
 
+import io.netty.handler.codec.http.Cookie;
 import io.netty.handler.codec.http.HttpRequest;
 import io.netty.handler.codec.http.multipart.Attribute;
 import io.netty.handler.codec.http.multipart.FileUpload;
@@ -8,6 +9,7 @@ import io.netty.handler.codec.http.multipart.HttpPostRequestDecoder;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -18,7 +20,8 @@ public class TrackedHttpRequest implements ITrackedHttpRequest {
 	private final List<FileUpload> files;
 	private final Map<String, Attribute> body;
 	private final List<IDisposable> disposables;
-	private volatile HttpPostRequestDecoder decoder;
+	private Set<Cookie> cookies;
+	private HttpPostRequestDecoder decoder;
 	
 	public TrackedHttpRequest(HttpRequest rawRequest) {
 		raw = rawRequest;
@@ -29,6 +32,15 @@ public class TrackedHttpRequest implements ITrackedHttpRequest {
 	
 	public HttpRequest getRawRequest() {
 		return raw;
+	}
+	
+	public void setCookies(Set<Cookie> cookies) {
+		this.cookies = cookies;
+	}
+	
+	@Override
+	public Set<Cookie> getCookies() {
+		return this.cookies;
 	}
 	
 	public void addAttribute(Attribute data) {
